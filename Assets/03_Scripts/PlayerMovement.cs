@@ -46,6 +46,6 @@ public class PlayerMovement : MonoBehaviour
         {
             turnigOverRoad = 1;
         }
-
+        //변경사항추가
     }
 }
