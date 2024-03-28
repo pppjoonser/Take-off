@@ -9,13 +9,18 @@ public class PlayerMovement : MonoBehaviour
     public float _overRoadScale;
 
 
+    float _directionY;
+    float _directionX;
+
     public float _acceleration;
     public float _airResistance;
-    private float _speed;
+    public float _speed;
     public float _maxSpeed;
 
+    
+
     Rigidbody2D rigid;
-    // Start is called before the first frame update
+    
     void Start()
     {
         
@@ -30,11 +35,10 @@ public class PlayerMovement : MonoBehaviour
         Vector3 mPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);//마우스 위치를 월드 위치로 변환
         Vector3 objectPosition = transform.position;//자신의 위치 받기
 
-        float directionY = mPos.y - objectPosition.y; //y방향 위치차이 받기
-        float directionX = mPos.x - objectPosition.x; //x방향 위치차이 받기
+        _directionY = mPos.y - objectPosition.y; //y방향 위치차이 받기
+        _directionX = mPos.x - objectPosition.x; //x방향 위치차이 받기
 
-
-        float _rotateDegree = Mathf.Atan2(directionY, directionX) * Mathf.Rad2Deg;
+        float _rotateDegree = Mathf.Atan2(_directionY, _directionX) * Mathf.Rad2Deg;
         //y값 x값 을 아크탄젠트로 변환 => 라디안 값을 반환하므로 각도값으로 변환
 
         //transform.rotation = Quaternion.AngleAxis(rotateDegree, Vector3.forward); 휙휙 돌아감. 맛 없는 코드. 밑에거 쓰자.
@@ -55,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _speed = _maxSpeed;
         }
-        else
+        else if (_speed > 0)
         {
             _speed -= _airResistance*Time.deltaTime;
         }

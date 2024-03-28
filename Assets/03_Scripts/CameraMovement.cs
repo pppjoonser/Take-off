@@ -10,5 +10,7 @@ public class CameraMovement : MonoBehaviour
     {
         Vector3 _target = _PC.transform.position + new Vector3(0, 0, -1);
         transform.position = _target;
+
+        Camera.main.orthographicSize = _PC._speed/3+1;
     }
 }
