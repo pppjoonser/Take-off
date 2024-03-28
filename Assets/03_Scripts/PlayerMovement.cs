@@ -34,12 +34,13 @@ public class PlayerMovement : MonoBehaviour
         float directionX = mPos.x - objectPosition.x; //x방향 위치차이 받기
 
 
-        float rotateDegree = Mathf.Atan2(directionY, directionX) * Mathf.Rad2Deg;
+        float _rotateDegree = Mathf.Atan2(directionY, directionX) * Mathf.Rad2Deg;
         //y값 x값 을 아크탄젠트로 변환 => 라디안 값을 반환하므로 각도값으로 변환
 
         //transform.rotation = Quaternion.AngleAxis(rotateDegree, Vector3.forward); 휙휙 돌아감. 맛 없는 코드. 밑에거 쓰자.
 
-        Quaternion targetRotation = Quaternion.Euler(0f, 0f, rotateDegree - 90); //오일러 각을 받는다.(중요)
+        Quaternion targetRotation = Quaternion.Euler(0f, 0f, _rotateDegree - 90); //오일러 각을 받는다.(중요)
+        
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * _turningSpeed * _turnigOverRoad);
         //현재 각도에서 목표 각도까지 회전속도만큼의 속도로 회전한다.
         #endregion
@@ -48,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
         #region
         if (Input.GetKey(KeyCode.W) && _speed < _maxSpeed)
         {
-            _speed += _acceleration * Time.deltaTime;
+            _speed += ((_acceleration - _airResistance) * Time.deltaTime);
         }
         else if (Input.GetKey(KeyCode.W) && _speed >= _maxSpeed)
         {
@@ -56,12 +57,13 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            _speed -= _airResistance;
+            _speed -= _airResistance*Time.deltaTime;
         }
+        Debug.Log(_speed);
         //스로틀 값
-
-        
-
+        float z = transform.rotation.eulerAngles.z+90;
+        Vector2 direction = new Vector2((Mathf.Cos(z * Mathf.Deg2Rad)), (Mathf.Sin(z * Mathf.Deg2Rad)));
+        GetComponent<Rigidbody2D>().velocity = direction * _speed;
         #endregion
 
         if (Input.GetKey(KeyCode.C))
