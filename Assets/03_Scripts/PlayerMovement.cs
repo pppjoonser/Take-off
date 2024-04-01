@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private float _turnigOverRoad;
     public float _turningSpeed;
-    public float _turnigOverRoad;
     public float _overRoadScale;
 
 
@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
         //마우스로 회전
         #region
         Vector3 mousePos = Input.mousePosition;//마우스 위치
-        Vector3 mPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);//마우스 위치를 월드 위치로 변환
+        Vector3 mPos = Camera.main.ScreenToWorldPoint(mousePos);//마우스 위치를 월드 위치로 변환
         Vector3 objectPosition = transform.position;//자신의 위치 받기
 
         _directionY = mPos.y - objectPosition.y; //y방향 위치차이 받기
@@ -63,7 +63,6 @@ public class PlayerMovement : MonoBehaviour
         {
             _speed -= _airResistance*Time.deltaTime;
         }
-        Debug.Log(_speed);
         //스로틀 값
         float z = transform.rotation.eulerAngles.z+90;
         Vector2 direction = new Vector2((Mathf.Cos(z * Mathf.Deg2Rad)), (Mathf.Sin(z * Mathf.Deg2Rad)));
