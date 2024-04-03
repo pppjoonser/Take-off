@@ -12,6 +12,6 @@ public class CameraMovement : MonoBehaviour
     {
         transform.position = _cameraPos.transform.position + Vector3.forward * -1;
 
-        Camera.main.orthographicSize = _playerChar._speed/3+1;
+        Camera.main.orthographicSize = _playerChar._speed/2+1;
     }
 }

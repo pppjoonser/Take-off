@@ -11,6 +11,6 @@ public class CameraPointMove : MonoBehaviour
         Vector2 direction = new Vector2((Mathf.Cos(z * Mathf.Deg2Rad)), (Mathf.Sin(z * Mathf.Deg2Rad)));
         direction = direction.normalized;
         transform.position = _playerCharictor.transform.localPosition +
-            new Vector3(direction.x,direction.y)*_playerCharictor._speed/4;
+            new Vector3(direction.x,direction.y)*_playerCharictor._speed/3;
     }
 }
