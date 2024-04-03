@@ -16,15 +16,8 @@ public class PlayerMovement : MonoBehaviour
     public float _airResistance;
     public float _speed;
     public float _maxSpeed;
-
     
 
-    Rigidbody2D rigid;
-    
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()

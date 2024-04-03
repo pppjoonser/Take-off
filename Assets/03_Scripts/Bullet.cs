@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    GameObject playerfire;
     public float _fireSpeed;
     [SerializeField] private float _delayFuze;
+    private void Awake()
+    {
+        playerfire = GameObject.Find("Player");
+        
+    }
 
+    private void Start()
+    {
+    }
     void Update()
     {
         float z = transform.rotation.eulerAngles.z + 90;

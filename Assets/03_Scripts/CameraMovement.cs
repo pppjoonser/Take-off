@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    public PlayerMovement _PC;
+    public PlayerMovement _playerChar;
+    public GameObject _cameraPos;
+
     // Update is called once per frame
     void Update()
     {
-        Vector3 _target = _PC.transform.position + new Vector3(0, 0, -1);
-        transform.position = _target;
+        transform.position = _cameraPos.transform.position + Vector3.forward * -1;
 
-        Camera.main.orthographicSize = _PC._speed/3+1;
+        Camera.main.orthographicSize = _playerChar._speed/3+1;
     }
 }
