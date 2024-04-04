@@ -70,5 +70,33 @@ public class PlayerMovement : MonoBehaviour
         {
             _turnigOverRoad = 1;
         }
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            _airResistance = 2;
+        }
+        else
+        {
+            _airResistance = 0.5f;
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            _acceleration = 4;
+            _maxSpeed = 12;
+        }
+        else
+        {
+            _acceleration = 2f;
+            if(_maxSpeed > 6)
+            { 
+                _maxSpeed = _speed;
+                _maxSpeed -= _speed * Time.deltaTime * 0.07f;
+            }
+            else
+            {
+                _maxSpeed = 6;
+            }
+        }
     }
 }
