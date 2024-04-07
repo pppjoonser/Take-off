@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    public PlayerMovement _playerChar;
+    public PlayerMovement _playerCharictor;
     public GameObject _cameraPos;
 
     // Update is called once per frame
@@ -12,6 +12,6 @@ public class CameraMovement : MonoBehaviour
     {
         transform.position = _cameraPos.transform.position + Vector3.forward * -1;
 
-        Camera.main.orthographicSize = _playerChar._speed/2+1;
+        Camera.main.orthographicSize = _playerCharictor._speed/2+1;
     }
 }

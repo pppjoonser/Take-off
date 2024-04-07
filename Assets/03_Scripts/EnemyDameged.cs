@@ -9,6 +9,7 @@ public class EnemyDameged : MonoBehaviour
         if(collision.tag == "Bullet")
         {
             Destroy(transform.parent.gameObject);
+            Destroy(collision.gameObject);
         }
     }
 }
