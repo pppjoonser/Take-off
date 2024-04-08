@@ -16,8 +16,8 @@ public class PlayerMovement : MonoBehaviour
     public float _airResistance;
     public float _speed;
     public float _maxSpeed;
-    
 
+    InputManager _input = InputManager.Instance;
 
     // Update is called once per frame
     void Update()
