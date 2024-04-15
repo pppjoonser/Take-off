@@ -12,8 +12,15 @@ public class SeekerRock : MonoBehaviour
 
     float _lockOnLate;
 
-    static GameObject _target;
+    public GameObject _target;
     public float _lockOnTime;
+
+    PolygonCollider2D _Collider;
+
+    private void Awake()
+    {
+        _Collider = GetComponent<PolygonCollider2D>();
+    }
     void Update()
     {
         Vector3 mousePos = Input.mousePosition;//마우스 위치
@@ -28,27 +35,26 @@ public class SeekerRock : MonoBehaviour
 
         transform.rotation = Quaternion.AngleAxis(_rotateDegree, Vector3.forward);
 
-        Debug.DrawRay(transform.position, transform.up * _lockOnRange, Color.green);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.up, _lockOnRange, LayerMask.GetMask("Enemy"));
-        if(hit.collider != null)
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        Debug.Log(collision.tag);
+        if(collision.tag == "Enemy")
         {
             _lockOnLate += Time.deltaTime;
-            if (_lockOnLate > _lockOnTime)
+
+            _target = collision.gameObject;
+
+            if(_lockOnLate > _lockOnTime)
             {
-                GameObject _misile = Instantiate(_missle);
-                _missle.transform.position = transform.position;
                 _lockOnLate = 0;
-                _target = _misile;
+
+                GameObject _missleLocation = Instantiate(_missle);
+
+                _missleLocation.transform.position = transform.position;
             }
         }
-        else
-        {
-            _lockOnLate = 0;
-        }
     }
-    
-    public static GameObject GetTarGet()
-    {
-        return _target;
-    }
+
 }
