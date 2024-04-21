@@ -98,5 +98,14 @@ public class PlayerMovement : MonoBehaviour
                 _maxSpeed = 6;
             }
         }
+
+        if (Input.GetKey(KeyCode.R))
+        {
+            _turnigOverRoad = 0;
+        }
+        else
+        {
+            _turnigOverRoad = 1;
+        }
     }
 }

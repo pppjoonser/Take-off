@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class CameraMovement : MonoBehaviour
 {
     public PlayerMovement _playerCharictor;
@@ -13,5 +14,6 @@ public class CameraMovement : MonoBehaviour
         transform.position = _cameraPos.transform.position + Vector3.forward * -1;
 
         Camera.main.orthographicSize = _playerCharictor._speed/2+1;
+
     }
 }
