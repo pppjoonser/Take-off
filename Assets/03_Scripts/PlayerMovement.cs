@@ -17,26 +17,31 @@ public class PlayerMovement : MonoBehaviour
     public float _speed;
     public float _maxSpeed;
 
-    InputManager _input = InputManager.Instance;
+    InputManager _input;
+
+    private void Awake()
+    {
+        _input = GameObject.Find("InputManager").GetComponent<InputManager>();
+    }
 
     // Update is called once per frame
+
+
     void Update()
     {
         //마우스로 회전
         #region
-        Vector3 mousePos = Input.mousePosition;//마우스 위치
-        Vector3 mPos = Camera.main.ScreenToWorldPoint(mousePos);//마우스 위치를 월드 위치로 변환
-        Vector3 objectPosition = transform.position;//자신의 위치 받기
 
-        _directionY = mPos.y - objectPosition.y; //y방향 위치차이 받기
-        _directionX = mPos.x - objectPosition.x; //x방향 위치차이 받기
-
-        float _rotateDegree = Mathf.Atan2(_directionY, _directionX) * Mathf.Rad2Deg;
         //y값 x값 을 아크탄젠트로 변환 => 라디안 값을 반환하므로 각도값으로 변환
 
-        //transform.rotation = Quaternion.AngleAxis(rotateDegree, Vector3.forward); 휙휙 돌아감. 맛 없는 코드. 밑에거 쓰자.
 
-        Quaternion targetRotation = Quaternion.Euler(0f, 0f, _rotateDegree - 90); //오일러 각을 받는다.(중요)
+
+        //transform.rotation = Quaternion.AngleAxis(rotateDegree, Vector3.forward); 휙휙 돌아감. 맛 없는 코드. 밑에거 쓰자.
+        float _rotateDeg = _input.GetMouseDeg(transform.position);
+
+        Debug.Log(_rotateDeg);
+
+        Quaternion targetRotation = Quaternion.Euler(0f, 0f, _rotateDeg - 90); //오일러 각을 받는다.(중요)
         
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * _turningSpeed * _turnigOverRoad);
         //현재 각도에서 목표 각도까지 회전속도만큼의 속도로 회전한다.
@@ -44,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
 
         //스로틀 값으로 움직이기
         #region
-        if (Input.GetKey(KeyCode.W) && _speed < _maxSpeed)
+        if (_input.Acceleration() && _speed < _maxSpeed)
         {
             _speed += ((_acceleration - _airResistance) * Time.deltaTime);
         }
@@ -71,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
             _turnigOverRoad = 1;
         }
 
-        if (Input.GetKey(KeyCode.S))
+        if (_input.BrakeButton())
         {
             _airResistance = 2;
         }
@@ -80,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
             _airResistance = 0.5f;
         }
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (_input.AfterBurner())
         {
             _acceleration = 4;
             _maxSpeed = 12;
