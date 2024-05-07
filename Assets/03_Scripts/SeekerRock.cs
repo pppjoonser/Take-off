@@ -65,6 +65,7 @@ public class SeekerRock : MonoBehaviour
                 GameObject _missleLocation = Instantiate(_missle);
 
                 _missleLocation.transform.position = transform.position;
+                _missleLocation.transform.rotation = transform.rotation;
 
                 _isFire = false;
 

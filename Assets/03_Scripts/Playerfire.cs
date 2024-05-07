@@ -66,6 +66,6 @@ public class Playerfire : MonoBehaviour
 
             _fireLate = _fireReady;
         }
-        _fireLate -= 0.01f;
+        _fireLate -= 0.1f * Time.deltaTime;
     }
 }

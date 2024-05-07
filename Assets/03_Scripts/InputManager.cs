@@ -5,11 +5,14 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
 
-    static bool _space;
-    static bool _accelButton;
-    static bool _brake;
-    static bool _afterBurn;
-    static bool _fire;
+    bool _space;
+    bool _accelButton;
+    bool _brake;
+    bool _afterBurn;
+    bool _fire;
+    bool _dashButton;
+    bool _offDashButton;
+
 
     float _directionY;
     float _directionX;
@@ -56,5 +59,17 @@ public class InputManager : MonoBehaviour
     {
         _fire = Input.GetButton("Fire1");
         return _fire;
+    }
+
+    public bool StartDash()
+    {
+        _dashButton = Input.GetKeyDown(KeyCode.C);
+        return _dashButton;
+    }
+    
+    public bool EndDash()
+    {
+        _offDashButton = Input.GetKeyUp(KeyCode.C);
+        return _offDashButton;
     }
 }

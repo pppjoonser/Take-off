@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField]
     private float _turnigOverRoad;
-    public float _turningSpeed;
-    public float _overRoadScale;
+    [SerializeField]
+    private float _turningSpeed;
+    [SerializeField]
+    private float _overRoadScale;
 
+    bool _isDash;
 
     float _directionY;
     float _directionX;
@@ -18,9 +22,11 @@ public class PlayerMovement : MonoBehaviour
     public float _maxSpeed;
 
     InputManager _input;
+    SceneManager _scene;
 
     private void Awake()
     {
+        _scene = GetComponent<SceneManager>();
         _input = GameObject.Find("InputManager").GetComponent<InputManager>();
     }
 
@@ -39,7 +45,6 @@ public class PlayerMovement : MonoBehaviour
         //transform.rotation = Quaternion.AngleAxis(rotateDegree, Vector3.forward); 휙휙 돌아감. 맛 없는 코드. 밑에거 쓰자.
         float _rotateDeg = _input.GetMouseDeg(transform.position);
 
-        Debug.Log(_rotateDeg);
 
         Quaternion targetRotation = Quaternion.Euler(0f, 0f, _rotateDeg - 90); //오일러 각을 받는다.(중요)
         
@@ -67,21 +72,16 @@ public class PlayerMovement : MonoBehaviour
         GetComponent<Rigidbody2D>().velocity = direction * _speed;
         #endregion
 
-        if (Input.GetKey(KeyCode.C))
-        {
-            _turnigOverRoad = _overRoadScale;
-        }
-        else
-        {
-            _turnigOverRoad = 1;
-        }
+        
 
-        if (_input.BrakeButton())
+        if (_input.BrakeButton()&& !_isDash)
         {
             _airResistance = 2;
+            _turnigOverRoad = _overRoadScale;
         }
-        else
+        else if(! _isDash)
         {
+            _turnigOverRoad = 1;
             _airResistance = 0.5f;
         }
 
@@ -96,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
             if(_maxSpeed > 6)
             { 
                 _maxSpeed = _speed;
-                _maxSpeed -= _speed * Time.deltaTime * 0.07f;
+                _maxSpeed -= _speed * Time.deltaTime * 0.1f;
             }
             else
             {
@@ -104,13 +104,20 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.R))
+        
+
+        if (_input.StartDash())
         {
-            _turnigOverRoad = 0;
+            _scene.SetTime(0.2f);
+            _turnigOverRoad = _overRoadScale*2.5f;
+            _isDash = true;
         }
-        else
+        
+        if (_input.EndDash() && !_input.BrakeButton())
         {
-            _turnigOverRoad = 1;
+            _turnigOverRoad = 1f;
+            _scene.SetTime(1f);
+            _isDash = false;
         }
     }
 }

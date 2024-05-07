@@ -11,7 +11,11 @@ public class DangerZone : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            Instantiate(_missleLuncher);
+            
+            GameObject _misile = Instantiate(_missleLuncher);
+
+            _misile.transform.position = transform.position;
         }
     }
+    
 }
