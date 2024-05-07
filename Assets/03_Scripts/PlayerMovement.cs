@@ -108,16 +108,27 @@ public class PlayerMovement : MonoBehaviour
 
         if (_input.StartDash())
         {
-            _scene.SetTime(0.2f);
-            _turnigOverRoad = _overRoadScale*2.5f;
-            _isDash = true;
+            DoDash();
         }
         
-        if (_input.EndDash() && !_input.BrakeButton())
+        if (_input.EndDash())
         {
-            _turnigOverRoad = 1f;
-            _scene.SetTime(1f);
-            _isDash = false;
+            ResetDash();
         }
+
+        
+    }
+    private void DoDash()
+    {
+        _scene.SetTime(0.2f);
+        _turnigOverRoad = _overRoadScale * 2.5f;
+        _isDash = true;
+    }
+
+    private void ResetDash()
+    {
+        _turnigOverRoad = 1f;
+        _scene.SetTime(1f);
+        _isDash = false;
     }
 }
