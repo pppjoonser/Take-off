@@ -1,23 +1,90 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class InputManager : MonoBehaviour
 {
+    //선언부
+    #region
+    public event Action _OnMouseMove;
+    public event Action _CantMouseMove;
 
-    bool _space;
-    bool _accelButton;
-    bool _brake;
-    bool _afterBurn;
-    bool _fire;
-    bool _dashButton;
-    bool _offDashButton;
-
+    public event Action _onSpace;
+    public event Action _onAccelButton;
+    public event Action _onBrake;
+    public event Action _offBrake;
+    public event Action _onAfterBurn;
+    public event Action _offAfterBurn;
+    public event Action _onFire;
+    public event Action _onDashButton;
+    public event Action _offDashButton;
+    public event Action _engineIdle;
 
     float _directionY;
     float _directionX;
-    
+    #endregion
 
+    //함수부
+    #region
+    public void SpaceButton()
+    {
+        if (Input.GetKey(KeyCode.Space))
+            _onBrake?.Invoke();
+    }
+
+    public void Acceleration()
+    {
+        if (Input.GetKey(KeyCode.W))
+            _onAccelButton?.Invoke();
+        else _engineIdle?.Invoke();
+    }
+
+    public void BrakeButton()
+    {
+        if (Input.GetKey(KeyCode.S))
+            _onBrake?.Invoke();
+        else _offBrake?.Invoke();
+    }
+
+    public void AfterBurner()
+    {
+        if (Input.GetKey(KeyCode.LeftShift))
+            _onAfterBurn?.Invoke();
+        else _offAfterBurn?.Invoke();
+    }
+
+    public void Fire()
+    {
+        if (Input.GetButton("Fire1"))
+            _onFire?.Invoke();
+    }
+
+    public void StartDash()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+            _onDashButton?.Invoke();
+    }
+    
+    public void EndDash()
+    {
+        if (Input.GetKeyUp(KeyCode.C))
+            _offDashButton?.Invoke();
+    }
+
+    private void Mouseinput()
+    {
+        if (Input.GetKey(KeyCode.R))
+        {
+            _OnMouseMove?.Invoke();
+        }
+        else
+        {
+            _CantMouseMove?.Invoke();
+        }
+    }
+    #endregion
     public float GetMouseDeg(Vector3 objectPosition)
     {
         Vector3 mousePos = Input.mousePosition;
@@ -30,46 +97,15 @@ public class InputManager : MonoBehaviour
 
         return _rotateDegree;
     }
-
-    public bool SpaceButton()
+    private void Update()
     {
-        _space = Input.GetKey(KeyCode.Space);
-        return _space;
-    }
-
-    public bool Acceleration()
-    {
-        _accelButton = Input.GetKey(KeyCode.W);
-        return _accelButton;
-    }
-
-    public bool BrakeButton()
-    {
-        _brake = Input.GetKey(KeyCode.S);
-        return _brake;
-    }
-
-    public bool AfterBurner()
-    {
-        _afterBurn = Input.GetKey(KeyCode.LeftShift);
-        return _afterBurn;
-    }
-
-    public bool Fire()
-    {
-        _fire = Input.GetButton("Fire1");
-        return _fire;
-    }
-
-    public bool StartDash()
-    {
-        _dashButton = Input.GetKeyDown(KeyCode.C);
-        return _dashButton;
-    }
-    
-    public bool EndDash()
-    {
-        _offDashButton = Input.GetKeyUp(KeyCode.C);
-        return _offDashButton;
+        Mouseinput();
+        SpaceButton();
+        Acceleration();
+        BrakeButton();
+        AfterBurner();
+        Fire();
+        StartDash();
+        EndDash();
     }
 }
