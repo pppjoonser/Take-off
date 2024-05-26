@@ -12,9 +12,11 @@ public class PlayerMovement : MonoBehaviour
     private float _turningSpeed;
     [SerializeField]
     private float _overRoadScale;
+    public float _dashTime;
 
     bool _isDash;
     bool _canRotate;
+    bool _dashFoward;
 
     [SerializeField]
     private float _acceleration;
@@ -72,7 +74,11 @@ public class PlayerMovement : MonoBehaviour
         GetComponent<Rigidbody2D>().velocity = direction * _speed;
         #endregion
 
-        
+        if (_dashFoward)
+        {
+            _speed = 30;
+            CantMouseMove();
+        }
         
     }
     //ÇÔ¼öºÎ
@@ -89,6 +95,7 @@ public class PlayerMovement : MonoBehaviour
         _turnigOverRoad = 1f;
         _scene.SetTime(1f);
         _isDash = false;
+        StartCoroutine(DashFoward());
     }
     private void CanMouseMove()
     {
@@ -102,11 +109,11 @@ public class PlayerMovement : MonoBehaviour
     }
     private void SpeedSet()
     {
-        if ( _speed < _maxSpeed)
+        if ( _speed < _maxSpeed&&!_dashFoward)
         {
             _speed += _acceleration* Time.deltaTime;
         }
-        else if (_speed >= _maxSpeed)
+        else if (_speed >= _maxSpeed && !_dashFoward)
         {
             _speed = _maxSpeed;
         }
@@ -137,7 +144,7 @@ public class PlayerMovement : MonoBehaviour
     private void OffAfterBurn()
     {
         _acceleration = 2f;
-        if (_maxSpeed > 6)
+        if (_maxSpeed > 6&&!_dashFoward)
         {
             _maxSpeed = _speed;
             _maxSpeed -= _speed * Time.deltaTime * 0.1f;
@@ -154,6 +161,14 @@ public class PlayerMovement : MonoBehaviour
             _speed -= _airResistance * Time.deltaTime;
         }
         else _speed = 0;
+    }
+
+    private IEnumerator DashFoward()
+    {
+        _dashFoward = true;
+        yield return new WaitForSeconds(_dashTime);
+        _speed = 5;
+        _dashFoward = false;
     }
     #endregion
 }

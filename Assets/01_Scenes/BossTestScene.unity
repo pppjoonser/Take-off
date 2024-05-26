@@ -399,6 +399,7 @@ MonoBehaviour:
   _turnigOverRoad: 1
   _turningSpeed: 3
   _overRoadScale: 1.5
+  _dashTime: 0.2
   _acceleration: 2
   _airResistance: 0.5
   _speed: 0
@@ -438,7 +439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbec384c7b6f0d8498b9bcefaec9cc33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ghostDelay: 0.2
+  _ghostDelay: 0.1
   ghost: {fileID: 879656756651993787, guid: 17cfb9f5f6205ea4da040df4d5564e88, type: 3}
 --- !u!1 &816995867
 GameObject:
