@@ -6,7 +6,7 @@ public class EnemyDameged : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Bullet")
+        if(collision.CompareTag("Bullet"))
         {
             Destroy(transform.parent.gameObject);
             Destroy(collision.gameObject);

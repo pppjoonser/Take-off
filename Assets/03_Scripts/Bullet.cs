@@ -8,13 +8,19 @@ public class Bullet : MonoBehaviour
     public float _fireSpeed;
     [SerializeField] private float _delayFuze;
     Vector2 _playerspeed;
+
+    Playerfire gun;
     private void Awake()
     {
         playerfire = GameObject.Find("Player");
 
-        
-    }
+        gun = FindAnyObjectByType<Playerfire>();
 
+    }
+    private void OnEnable()
+    {
+        StartCoroutine(DelayFuze());
+    }
     private void Start()
     {
         _playerspeed = playerfire.GetComponent<Rigidbody2D>().velocity;
@@ -25,12 +31,12 @@ public class Bullet : MonoBehaviour
         Vector2 direction = new Vector2((Mathf.Cos(z * Mathf.Deg2Rad)), (Mathf.Sin(z * Mathf.Deg2Rad)));
         GetComponent<Rigidbody2D>().velocity = direction * _fireSpeed + _playerspeed;
 
-        _delayFuze -= Time.deltaTime;
-        if (_delayFuze < 0)
-        {
-            Destroy(gameObject);
-        }
+        
     }
-
-
+    IEnumerator DelayFuze()
+    {
+        yield return new WaitForSeconds(_delayFuze);
+        gun.bulletPool.Push(gameObject);
+        gameObject.SetActive(false);
+    }
 }

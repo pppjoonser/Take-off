@@ -16,16 +16,17 @@ public class PlayerMovement : MonoBehaviour
     bool _isDash;
     bool _canRotate;
 
-    public float _acceleration;
-    public float _airResistance;
+    [SerializeField]
+    private float _acceleration;
+    [SerializeField]
+    private float _airResistance;
     public float _speed;
-    public float _maxSpeed;
-    private float _time = 0;
+    [SerializeField]
+    private float _maxSpeed;
 
     InputManager _input;
     SceneManager _scene;
 
-    private bool _agilityIncrease;
 
     #endregion
     private void Awake()
@@ -71,11 +72,7 @@ public class PlayerMovement : MonoBehaviour
         GetComponent<Rigidbody2D>().velocity = direction * _speed;
         #endregion
 
-        if (_agilityIncrease)
-        {
-            _time += Time.deltaTime;
-            _turnigOverRoad += Mathf.Lerp(0, 1, _time);
-        }
+        
         
     }
     //ÇÔ¼öºÎ

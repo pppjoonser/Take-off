@@ -18,6 +18,8 @@ public class Playerfire : MonoBehaviour
 
     public bool _readyToFire = true;
 
+    public Stack<GameObject> bulletPool = new Stack<GameObject>();
+
     static public float AddSpeed(float _bulletSpeed, BulletFire bullet)
     {
         return _bulletSpeed + _PC._speed;
@@ -38,13 +40,26 @@ public class Playerfire : MonoBehaviour
         
     }
 
+    private GameObject GetBulletInPool()
+    {
+        if (bulletPool.Count > 0)
+        {
+            return bulletPool.Pop();
+        }
+        else
+        {
+            return Instantiate(bulletPrefab);
+        }
+    }
+
     private void PlayerFire()
     {
         if (_readyToFire)
         {
             //create bullet
-            GameObject bullet = Instantiate(bulletPrefab);
+            GameObject bullet = GetBulletInPool();
             //FirePos
+            bullet.SetActive(true);
             bullet.transform.position = FirePos.transform.position;
             bullet.transform.rotation = gameObject.transform.rotation;
             StartCoroutine(ShootCoolTime());
