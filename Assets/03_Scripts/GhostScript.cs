@@ -9,12 +9,14 @@ public class GhostScript : MonoBehaviour
     private bool _ghostCooltime=false;
     [SerializeField]
     private GameObject ghost;
-
+    InputManager _input;
+    PlayerMovement _player;
     public Stack<GameObject> GhostPool = new Stack<GameObject>();
 
     private void Awake()
     {
-        InputManager _input = GameObject.Find("InputManager").GetComponent<InputManager>();
+        _input = GameObject.Find("InputManager").GetComponent<InputManager>();
+        _player = GetComponent<PlayerMovement>();
     }
 
     void Start()
@@ -25,7 +27,7 @@ public class GhostScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_isGhost&&!_ghostCooltime)
+        if (_player._dashFoward&&!_ghostCooltime)
         {
             GameObject currentGhost = GetGhost();
             currentGhost.SetActive(true);

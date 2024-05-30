@@ -20,10 +20,11 @@ public class Bullet : MonoBehaviour
     private void OnEnable()
     {
         StartCoroutine(DelayFuze());
+        _playerspeed = gun.GetComponent<Rigidbody2D>().velocity;
     }
     private void Start()
     {
-        _playerspeed = playerfire.GetComponent<Rigidbody2D>().velocity;
+        
     }
     void Update()
     {

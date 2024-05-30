@@ -5,12 +5,24 @@ using UnityEngine;
 public class CameraPointMove : MonoBehaviour
 {
     public PlayerMovement _playerCharictor;
-    void FixedUpdate()
+    private PlayerMovement _movement;
+
+    private void Awake()
+    {
+        _movement = GetComponentInParent<PlayerMovement>();
+    }
+    void Update()
     {
         float z = transform.rotation.eulerAngles.z + 90;
-        Vector2 direction = new Vector2((Mathf.Cos(z * Mathf.Deg2Rad)), (Mathf.Sin(z * Mathf.Deg2Rad)));
-        direction = direction.normalized;
+        Vector2 _direction = new Vector2((Mathf.Cos(z * Mathf.Deg2Rad)), (Mathf.Sin(z * Mathf.Deg2Rad)));
+        _direction = _direction.normalized;
+
+        if (!_playerCharictor._dashFoward) CameraPosSet(_direction);
+    }
+
+    private void CameraPosSet(Vector3 _targetDirection)
+    {
         transform.position = _playerCharictor.transform.localPosition +
-            new Vector3(direction.x,direction.y)*_playerCharictor._speed/3;
+            new Vector3(_targetDirection.x, _targetDirection.y) * Mathf.Clamp(_playerCharictor._speed / 3, 0f, 4f);
     }
 }

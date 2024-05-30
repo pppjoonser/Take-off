@@ -13,10 +13,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float _overRoadScale;
     public float _dashTime;
+    [SerializeField]
+    private GameObject _camera;
+    private CameraMovement _cameraMove;
 
     bool _isDash;
     bool _canRotate;
-    bool _dashFoward;
+    public bool _dashFoward;
 
     [SerializeField]
     private float _acceleration;
@@ -35,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _scene = GetComponent<SceneManager>();
         _input = GameObject.Find("InputManager").GetComponent<InputManager>();
+        _cameraMove = _camera.GetComponent<CameraMovement>();
     }
 
     private void Start()
@@ -92,10 +96,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void ResetDash()
     {
+        StartCoroutine(DashFoward());
+        
         _turnigOverRoad = 1f;
         _scene.SetTime(1f);
         _isDash = false;
-        StartCoroutine(DashFoward());
     }
     private void CanMouseMove()
     {
@@ -144,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
     private void OffAfterBurn()
     {
         _acceleration = 2f;
-        if (_maxSpeed > 6&&!_dashFoward)
+        if (_maxSpeed > 6)
         {
             _maxSpeed = _speed;
             _maxSpeed -= _speed * Time.deltaTime * 0.1f;
@@ -165,9 +170,11 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator DashFoward()
     {
+        _cameraMove.CameraSet();
+        float pak = _speed;
         _dashFoward = true;
         yield return new WaitForSeconds(_dashTime);
-        _speed = 5;
+        _speed = pak;
         _dashFoward = false;
     }
     #endregion
