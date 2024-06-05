@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -8,8 +9,12 @@ public class Bullet : MonoBehaviour
     public float _fireSpeed;
     [SerializeField] private float _delayFuze;
     Vector2 _playerspeed;
+    [SerializeField]
+    private float _damage;
 
     Playerfire gun;
+
+    private bool _canDamage = true;
     private void Awake()
     {
         playerfire = GameObject.Find("Player");
@@ -21,6 +26,7 @@ public class Bullet : MonoBehaviour
     {
         StartCoroutine(DelayFuze());
         _playerspeed = gun.GetComponent<Rigidbody2D>().velocity;
+        _canDamage = true;
     }
     private void Start()
     {
@@ -34,10 +40,36 @@ public class Bullet : MonoBehaviour
 
         
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            if (_canDamage)
+            {
+                StartCoroutine(DamageDelay());
+                HealthManager _enemyHM = collision.GetComponentInParent<HealthManager>();
+                Debug.Log(_enemyHM);
+                _enemyHM.GetDamage(_damage);
+                Disable();
+            }
+        }
+    }
     IEnumerator DelayFuze()
     {
         yield return new WaitForSeconds(_delayFuze);
+        Disable();
+    }
+
+    private void Disable()
+    {
         gun.bulletPool.Push(gameObject);
         gameObject.SetActive(false);
+    }
+    private IEnumerator DamageDelay()
+    {
+        _canDamage = false;
+        yield return new WaitForEndOfFrame();
+        _canDamage = true;
     }
 }

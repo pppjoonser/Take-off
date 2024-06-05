@@ -23,6 +23,6 @@ public class CameraPointMove : MonoBehaviour
     private void CameraPosSet(Vector3 _targetDirection)
     {
         transform.position = _playerCharictor.transform.localPosition +
-            new Vector3(_targetDirection.x, _targetDirection.y) * Mathf.Clamp(_playerCharictor._speed / 3, 0f, 4f);
+            new Vector3(_targetDirection.x, _targetDirection.y) * _playerCharictor._speed/3;
     }
 }
