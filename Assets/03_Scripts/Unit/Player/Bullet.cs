@@ -36,9 +36,7 @@ public class Bullet : MonoBehaviour
     {
         float z = transform.rotation.eulerAngles.z + 90;
         Vector2 direction = new Vector2((Mathf.Cos(z * Mathf.Deg2Rad)), (Mathf.Sin(z * Mathf.Deg2Rad)));
-        GetComponent<Rigidbody2D>().velocity = direction * _fireSpeed + _playerspeed;
-
-        
+        GetComponent<Rigidbody2D>().velocity = direction * _fireSpeed + _playerspeed;        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

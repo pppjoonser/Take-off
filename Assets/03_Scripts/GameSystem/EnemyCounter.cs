@@ -11,6 +11,8 @@ public class EnemyCounter : MonoBehaviour
 
     public static EnemyCounter Instance = null;
 
+    public int EnemyLimit { get { return _enemyLimit; } set { _enemyLimit = value > 0 ? value : 0; } }
+
     private void Awake()
     {
         if(Instance == null)
@@ -30,5 +32,10 @@ public class EnemyCounter : MonoBehaviour
     public int GetLimit()
     {
         return _enemyLimit;
+    }
+
+    public void ResetCount()
+    {
+        _currentEnemyCount = 0;
     }
 }
