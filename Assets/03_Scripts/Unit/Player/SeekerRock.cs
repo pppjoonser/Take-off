@@ -22,9 +22,20 @@ public class SeekerRock : MonoBehaviour
     public int _missleAmount;
 
     public float _missleReroadTime;
+
+    public Stack<GameObject> _missilePool = new Stack<GameObject>();
     private void Awake()
     {
         _Collider = GetComponent<PolygonCollider2D>();
+    }
+    private void Start()
+    {
+        for (int i = 0; i < _missleAmount; i++)
+        {
+            GameObject _misiletemp = Instantiate(_missle);
+            _missilePool.Push(_misiletemp);
+            _misiletemp.SetActive(false);
+        }
     }
     void Update()
     {
@@ -52,7 +63,7 @@ public class SeekerRock : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.tag == "Enemy"&&_isFire&&_missleAmount>0)
+        if(collision.CompareTag("Enemy")&&_isFire&&_missleAmount>0)
         {
             _lockOnLate += Time.deltaTime;
 
@@ -62,7 +73,8 @@ public class SeekerRock : MonoBehaviour
             {
                 _lockOnLate = 0;
 
-                GameObject _missleLocation = Instantiate(_missle);
+                GameObject _missleLocation = GetPool();
+                _missleLocation.SetActive(true);
 
                 _missleLocation.transform.position = transform.position;
                 _missleLocation.transform.rotation = transform.rotation;
@@ -73,6 +85,18 @@ public class SeekerRock : MonoBehaviour
 
                 StartCoroutine(MissleColltime());
             }
+        }
+    }
+
+    private GameObject GetPool()
+    {
+        if (_missilePool.Count > 0)
+        {
+            return _missilePool.Pop();
+        }
+        else
+        {
+            return Instantiate(_missle);
         }
     }
 

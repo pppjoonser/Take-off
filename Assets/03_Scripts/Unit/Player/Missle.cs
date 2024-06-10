@@ -11,15 +11,23 @@ public class Missle : MonoBehaviour
     private float _fireSpeed;
     [SerializeField]
     private float _turningSpeed;
+    private bool _canDamage = true;
+
+    SeekerRock _seeker;
+
+    [SerializeField]
+    private float _damage;
     private void Start()
     {
-        _trackingTarget = GameObject.Find("Seeker").GetComponent<SeekerRock>()._target;
+        _seeker = GameObject.Find("Seeker").GetComponent<SeekerRock>();
+        _trackingTarget = _seeker._target;
+        StartCoroutine(DelayFuze());
     }
     void Update()
     {
-        if (_trackingTarget == null)
+        if (!_trackingTarget.gameObject.activeSelf)
         {
-            Destroy(gameObject);
+            Disable();
         }
         Vector3 mPos = _trackingTarget.transform.position;
         Vector3 objectPosition = transform.position;
@@ -39,6 +47,35 @@ public class Missle : MonoBehaviour
         GetComponent<Rigidbody2D>().velocity = direction * _fireSpeed;
 
         
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            if (_canDamage)
+            {
+                StartCoroutine(DamageDelay());
+                HealthManager _enemyHM = collision.GetComponentInParent<HealthManager>();
+                _enemyHM.GetDamage(_damage);
+                Disable();
+            }
+        }
+    }
+    private void Disable()
+    {
+        _seeker._missilePool.Push(gameObject);
+        gameObject.SetActive(false);
+    }
+    private IEnumerator DamageDelay()
+    {
+        _canDamage = false;
+        yield return new WaitForEndOfFrame();
+        _canDamage = true;
+    }
+    private IEnumerator DelayFuze()
+    {
+        yield return new WaitForSeconds(8);
+        Disable();
     }
 
 }

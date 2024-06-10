@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class EnemyCounter : MonoBehaviour
 {
     public int _enemyLimit;
-    public Text _enemyCountUI;
     public int _enemyCount = 0;
     public int _currentEnemyCount = 0;
 
@@ -23,7 +22,6 @@ public class EnemyCounter : MonoBehaviour
     public void EnemyIncrease(int value)
     {
         _currentEnemyCount = value;
-        _enemyCountUI.text = $"{_currentEnemyCount}";
     }
     public int GetScore()
     {

@@ -49,7 +49,6 @@ public class Bullet : MonoBehaviour
             {
                 StartCoroutine(DamageDelay());
                 HealthManager _enemyHM = collision.GetComponentInParent<HealthManager>();
-                Debug.Log(_enemyHM);
                 _enemyHM.GetDamage(_damage);
                 Disable();
             }
