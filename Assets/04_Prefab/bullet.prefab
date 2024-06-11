@@ -156,8 +156,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905f6ef979e97c04e8b8512c848f0487, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fireSpeed: 6
-  _delayFuze: 4
+  _fireSpeed: 8
+  _delayFuze: 2
   _damage: 1
 --- !u!50 &-5428144231175283343
 Rigidbody2D:

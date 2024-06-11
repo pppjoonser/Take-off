@@ -15,7 +15,15 @@ public class PlayerMovement : MonoBehaviour
     public float _dashTime;
     [SerializeField]
     private GameObject _camera;
+
+    private float _dashCharge;
+
+    [SerializeField]
+    private GameObject _dashAttack;
     private CameraMovement _cameraMove;
+
+    [SerializeField]
+    private GameObject _movementCollider;
 
     bool _isDash;
     bool _canRotate;
@@ -82,11 +90,14 @@ public class PlayerMovement : MonoBehaviour
         {
             _speed = 30;
             CantMouseMove();
+            
         }
         
     }
     //ÇÔ¼öºÎ
     #region
+    
+
     private void DoDash()
     {
         _scene.SetTime(0.2f);
@@ -105,8 +116,6 @@ public class PlayerMovement : MonoBehaviour
     private void CanMouseMove()
     {
         _canRotate = false;
-
-        
     }
     private void CantMouseMove()
     {
@@ -171,11 +180,20 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator DashFoward()
     {
         _cameraMove.CameraSet();
+        _dashAttack.SetActive(true);
+        _movementCollider.gameObject.SetActive(false);
+
         float pak = _speed;
+
         _dashFoward = true;
+
         yield return new WaitForSeconds(_dashTime);
+
         _speed = pak;
+
         _dashFoward = false;
+        _dashAttack.SetActive(false);
+        _movementCollider.gameObject.SetActive(true);
     }
     #endregion
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 public class GhostScript : MonoBehaviour
 {
     public float _ghostDelay;
-    private bool _isGhost = true;
     private bool _ghostCooltime=false;
     [SerializeField]
     private GameObject ghost;
