@@ -13,14 +13,16 @@ public class Missle : MonoBehaviour
     private float _turningSpeed;
     private bool _canDamage = true;
 
-    SeekerRock _seeker;
+    SeekerLock _seeker;
 
     [SerializeField]
     private float _damage;
-    private void Start()
+
+    private void OnEnable()
     {
-        _seeker = GameObject.Find("Seeker").GetComponent<SeekerRock>();
-        _trackingTarget = _seeker._target;
+        _canDamage = true;
+        _seeker = GameObject.Find("Seeker").GetComponent<SeekerLock>();
+        _trackingTarget = _seeker?._target;
         StartCoroutine(DelayFuze());
     }
     void Update()
@@ -63,8 +65,8 @@ public class Missle : MonoBehaviour
     }
     private void Disable()
     {
-        _seeker._missilePool.Push(gameObject);
         gameObject.SetActive(false);
+        _seeker._missilePool.Push(gameObject);
     }
     private IEnumerator DamageDelay()
     {

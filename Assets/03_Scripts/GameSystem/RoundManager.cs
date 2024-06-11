@@ -42,7 +42,7 @@ public class RoundManager : MonoBehaviour
         _currentTime -= Time.deltaTime;
         if(_currentTime < 0)
         {
-            NextWave();
+            //NextWave();
         }
         SetTimer();
     }

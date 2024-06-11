@@ -29,7 +29,7 @@ public class EnemyMovement : MonoBehaviour
     }
     private float TargetDegree()
     {
-        _playerSpeed = playerfire.GetComponent<Rigidbody2D>().position;
+        _playerSpeed = playerfire.GetComponentInParent<Rigidbody2D>().position;
         Vector3 objectPosition = transform.position;
         _directionY = _playerSpeed.y - objectPosition.y; //y방향 위치차이 받기
         _directionX = _playerSpeed.x - objectPosition.x; //x방향 위치차이 받기

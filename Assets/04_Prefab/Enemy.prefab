@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4874804d77b5f3a47904d6e54dd9240e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyTurningSpeed: 2
+  _enemyTurningSpeed: 1.5
   _speed: 8
 --- !u!50 &7588537009422551779
 Rigidbody2D:

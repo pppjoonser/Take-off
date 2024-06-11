@@ -23,7 +23,7 @@ public class CameraMovement : MonoBehaviour
         CameraSizeSet(_speedRegister);
         
         
-        transform.position = _cameraPos.transform.position + new Vector3(0,0.1f*_speedRegister,-1);
+        transform.position = _cameraPos.transform.position + Vector3.forward*-1;
 
         
     }
