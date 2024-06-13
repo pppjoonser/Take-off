@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class CameraPointMove : MonoBehaviour
 {
@@ -11,18 +12,24 @@ public class CameraPointMove : MonoBehaviour
     {
         _movement = GetComponentInParent<PlayerMovement>();
     }
-    void Update()
+    private void FixedUpdate()
     {
         float z = transform.rotation.eulerAngles.z + 90;
         Vector2 _direction = new Vector2((Mathf.Cos(z * Mathf.Deg2Rad)), (Mathf.Sin(z * Mathf.Deg2Rad)));
         _direction = _direction.normalized;
 
-        if (!_playerCharictor._dashFoward) CameraPosSet(_direction);
+        if (!_playerCharictor._dashFoward) { CameraPosSet(_direction, 2f);}
+        else
+        {
+            //CameraPosSet(_direction, 3f);
+        }
     }
 
-    private void CameraPosSet(Vector3 _targetDirection)
+
+    private void CameraPosSet(Vector3 _targetDirection, float targetSize)
     {
         transform.position = _playerCharictor.transform.localPosition +
-            new Vector3(_targetDirection.x, _targetDirection.y) * _playerCharictor._speed/4;
+            new Vector3(_targetDirection.x, _targetDirection.y) * _playerCharictor._speed / targetSize;
     }
+
 }

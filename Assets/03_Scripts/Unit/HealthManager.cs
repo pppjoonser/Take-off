@@ -7,10 +7,24 @@ public class HealthManager : MonoBehaviour
     [SerializeField]
     private float _maxHealth = 2;
     private float _currentHealth;
+    private bool _isEnemy;
+
+    EnemyMovement _enemy;
 
     private void Awake()
     {
         _currentHealth = _maxHealth;
+
+        _isEnemy = TryGetComponent(out _enemy);
+    }
+    private void Start()
+    {
+        _isEnemy = gameObject.CompareTag("Enemy");
+        if(_isEnemy)
+        {
+            _enemy = GetComponent<EnemyMovement>();
+
+        }
     }
     public void GetDamage(float damage)
     {
@@ -24,6 +38,9 @@ public class HealthManager : MonoBehaviour
     
     private void Splash()
     {
-        gameObject.SetActive(false);
+        if( _isEnemy)
+        {
+            _enemy.Destroyed();
+        }
     }
 }

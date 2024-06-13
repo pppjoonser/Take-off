@@ -8,13 +8,18 @@ public class PlayerMovement : MonoBehaviour
     #region
     [SerializeField]
     private float _turnigOverRoad;
+
     [SerializeField]
     private float _turningSpeed;
+
     [SerializeField]
     private float _overRoadScale;
     public float _dashTime;
     [SerializeField]
     private GameObject _camera;
+
+    [SerializeField]
+    private float _brakeForce;
 
     private float _dashCharge;
 
@@ -25,8 +30,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private GameObject _movementCollider;
 
+    [SerializeField]
+    private Playerfire _playerfire;
+
     bool _isDash;
-    bool _canRotate;
+    bool _canRotate = true;
     public bool _dashFoward;
 
     [SerializeField]
@@ -34,8 +42,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float _airResistance;
     public float _speed;
-    [SerializeField]
-    private float _maxSpeed;
+    public float _maxSpeed;
 
     InputManager _input;
     SceneManager _scene;
@@ -51,8 +58,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        _input._OnMouseMove += CanMouseMove;
-        _input._CantMouseMove += CantMouseMove;
         _input._onAccelButton += SpeedSet;
         _input._onBrake += ReduceSpeed;
         _input._onDashButton += DoDash;
@@ -63,9 +68,12 @@ public class PlayerMovement : MonoBehaviour
         _input._engineIdle += Idle;
     }//액션 할당
 
+    private void OnEnable()
+    {
+        _dashAttack.SetActive(false);
+    }
 
-
-    void Update()
+    void FixedUpdate()
     {
         //마우스로 회전
         #region
@@ -89,22 +97,19 @@ public class PlayerMovement : MonoBehaviour
         if (_dashFoward)
         {
             _speed = 30;
-            CantMouseMove();
-            
         }
         
     }
     //함수부
     #region
-    
 
     private void DoDash()
     {
+        _playerfire.SetMainGunFireable();
         _scene.SetTime(0.2f);
         _turnigOverRoad = _overRoadScale * 2.5f;
         _isDash = true;
     }
-
     private void ResetDash()
     {
         StartCoroutine(DashFoward());
@@ -112,14 +117,6 @@ public class PlayerMovement : MonoBehaviour
         _turnigOverRoad = 1f;
         _scene.SetTime(1f);
         _isDash = false;
-    }
-    private void CanMouseMove()
-    {
-        _canRotate = false;
-    }
-    private void CantMouseMove()
-    {
-        _canRotate = true;
     }
     private void SpeedSet()
     {
@@ -136,7 +133,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!_isDash)
         {
-            _airResistance = 2;
+            _airResistance = _brakeForce;
             _turnigOverRoad = _overRoadScale;
         }
 
@@ -149,7 +146,6 @@ public class PlayerMovement : MonoBehaviour
             _airResistance = 0.5f;
         }
     }
-
     private void AfterBurn()
     {
         _acceleration = 4;
@@ -176,12 +172,12 @@ public class PlayerMovement : MonoBehaviour
         }
         else _speed = 0;
     }
-
     private IEnumerator DashFoward()
     {
-        _cameraMove.CameraSet();
+        _cameraMove?.CameraSet();
         _dashAttack.SetActive(true);
         _movementCollider.gameObject.SetActive(false);
+        _canRotate = false;
 
         float pak = _speed;
 
@@ -191,9 +187,13 @@ public class PlayerMovement : MonoBehaviour
 
         _speed = pak;
 
+        _canRotate = true;
         _dashFoward = false;
         _dashAttack.SetActive(false);
         _movementCollider.gameObject.SetActive(true);
+
+        yield return null;
+        _playerfire.SetMainGunFireable();
     }
     #endregion
 }

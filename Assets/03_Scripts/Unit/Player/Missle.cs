@@ -25,7 +25,7 @@ public class Missle : MonoBehaviour
         _trackingTarget = _seeker?._target;
         StartCoroutine(DelayFuze());
     }
-    void Update()
+    void FixedUpdate()
     {
         if (!_trackingTarget.gameObject.activeSelf)
         {

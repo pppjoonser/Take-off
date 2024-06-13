@@ -16,7 +16,8 @@ public class Playerfire : MonoBehaviour
     private InputManager _inputManager;
     static PlayerMovement _PC;
 
-    public bool _readyToFire = true;
+    private bool _readyToFire = true;
+    bool toggle = true;
 
     public Stack<GameObject> bulletPool = new Stack<GameObject>();
 
@@ -63,12 +64,20 @@ public class Playerfire : MonoBehaviour
             bullet.transform.position = FirePos.transform.position;
             bullet.transform.rotation = gameObject.transform.rotation;
             StartCoroutine(ShootCoolTime());
-            //BulletFire bulletFire = new BulletFire(AddSpeed);
-
-            //bulletFire.Invoke(_bulletFireSpeed);
-
-            
         }
+    }
+
+    public void SetMainGunFireable()
+    {
+        if (toggle)
+        {
+            _inputManager._onFire -= PlayerFire;
+        }
+        else 
+        {
+            _inputManager._onFire += PlayerFire;
+        }
+        toggle = !toggle;
     }
 
     IEnumerator ShootCoolTime()

@@ -5,9 +5,13 @@ using UnityEngine.UI;
 
 public class EnemyCounter : MonoBehaviour
 {
+    [SerializeField]
+    Slider TargetUI;
+
     public int _enemyLimit;
     public int _enemyCount = 0;
-    public int _currentEnemyCount = 0;
+    private int _deadEnemy=0;
+    public int _currentEnemyRespawnCount = 0;
 
     public static EnemyCounter Instance = null;
 
@@ -23,11 +27,12 @@ public class EnemyCounter : MonoBehaviour
 
     public void EnemyIncrease(int value)
     {
-        _currentEnemyCount = value;
+        _currentEnemyRespawnCount = value;
+        _enemyCount++;
     }
     public int GetScore()
     {
-        return _currentEnemyCount;
+        return _currentEnemyRespawnCount;
     }
     public int GetLimit()
     {
@@ -36,6 +41,18 @@ public class EnemyCounter : MonoBehaviour
 
     public void ResetCount()
     {
-        _currentEnemyCount = 0;
+        _currentEnemyRespawnCount = 0;
+    }
+
+    public void EnemyDestroy()
+    {
+        _enemyCount--;
+        _deadEnemy++;
+        UIset(_deadEnemy);
+    }
+
+    private void UIset (int value)
+    {
+        TargetUI.value = Mathf.InverseLerp(0, EnemyLimit, EnemyLimit-value);
     }
 }

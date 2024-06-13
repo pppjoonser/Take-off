@@ -32,7 +32,7 @@ public class Bullet : MonoBehaviour
     {
         
     }
-    void Update()
+    void FixedUpdate()
     {
         float z = transform.rotation.eulerAngles.z + 90;
         Vector2 direction = new Vector2((Mathf.Cos(z * Mathf.Deg2Rad)), (Mathf.Sin(z * Mathf.Deg2Rad)));

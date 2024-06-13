@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,35 +7,26 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     public PlayerMovement _playerCharictor;
-    public GameObject _cameraPos;
-
+    [SerializeField]
+    private CinemachineVirtualCamera virtualCamera;
     private bool _canmoveCamara = true;
     private float _speedRegister;
     // Update is called once per frame
 
-    void Update()
+    void LateUpdate()
     {
         if (_canmoveCamara)
         {
             _speedRegister = _playerCharictor._speed;
         }
 
-        
         CameraSizeSet(_speedRegister);
-        
-        
-        transform.position = _cameraPos.transform.position + Vector3.forward*-1;
-
-        
-    }
-    private void LateUpdate()
-    {
         
     }
 
     private void CameraSizeSet(float _targetSize)
     {
-        Camera.main.orthographicSize = _targetSize / 3 + 1;
+        virtualCamera.m_Lens.OrthographicSize = _targetSize / 3 + 1;
     }
 
     public void CameraSet()

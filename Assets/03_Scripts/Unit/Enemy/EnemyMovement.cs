@@ -8,6 +8,8 @@ public class EnemyMovement : MonoBehaviour
 
     Vector3 _playerSpeed;
 
+    EnemyCounter _enemyCounter;
+
     float _directionY;
     float _directionX;
     [SerializeField] float _enemyTurningSpeed;
@@ -15,8 +17,9 @@ public class EnemyMovement : MonoBehaviour
     private void Awake()
     {
         playerfire = GameObject.Find("Player");
+        _enemyCounter = FindObjectOfType<EnemyCounter>();
     }
-    void Update()
+    void FixedUpdate()
     {
         DirChange(TargetDegree());
         MoveForward();
@@ -42,5 +45,11 @@ public class EnemyMovement : MonoBehaviour
         float z = transform.rotation.eulerAngles.z + 90;
         Vector2 direction = new Vector2((Mathf.Cos(z * Mathf.Deg2Rad)), (Mathf.Sin(z * Mathf.Deg2Rad)));
         GetComponent<Rigidbody2D>().velocity = direction * _speed;
+    }
+
+    public void Destroyed()
+    {
+        EnemyCounter.Instance.EnemyDestroy();
+        gameObject.SetActive(false);
     }
 }
