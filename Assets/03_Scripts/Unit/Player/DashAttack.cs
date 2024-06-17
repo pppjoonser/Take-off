@@ -16,7 +16,14 @@ public class DashAttack : MonoBehaviour
             {
                 HealthManager _enemyHM = collision.GetComponentInParent<HealthManager>();
                 _enemyHM?.GetDamage(_damage);
+                StartCoroutine(AttackDelay());
             }
         }
+    }
+    private IEnumerator AttackDelay()
+    {
+        _canDamage = false;
+        yield return new WaitForSeconds(0.04f);
+        _canDamage = true;
     }
 }

@@ -11,9 +11,10 @@ public class CameraMovement : MonoBehaviour
     private CinemachineVirtualCamera virtualCamera;
     private bool _canmoveCamara = true;
     private float _speedRegister;
+
     // Update is called once per frame
 
-    void LateUpdate()
+    void Update()
     {
         if (_canmoveCamara)
         {
@@ -26,7 +27,7 @@ public class CameraMovement : MonoBehaviour
 
     private void CameraSizeSet(float _targetSize)
     {
-        virtualCamera.m_Lens.OrthographicSize = _targetSize / 3 + 1;
+        virtualCamera.m_Lens.OrthographicSize = _targetSize / 2.5f + 1;
     }
 
     public void CameraSet()

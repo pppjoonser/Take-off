@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     private float _turningSpeed;
+
+    [SerializeField]
+    public float _chargingTime;
 
     [SerializeField]
     private float _overRoadScale;
@@ -33,8 +37,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private Playerfire _playerfire;
 
+    [SerializeField]
+    private PlayerDash _dash;
     bool _isDash;
-    bool _canRotate = true;
+    private bool _dashable=false;
+    public bool _canRotate = true;
     public bool _dashFoward;
 
     [SerializeField]
@@ -45,13 +52,18 @@ public class PlayerMovement : MonoBehaviour
     public float _maxSpeed;
 
     InputManager _input;
-    SceneManager _scene;
+    [SerializeField]
+    private DashEffect _dashEffect;
 
+    SceneManagerScript _scene;
+    [SerializeField]
+    Image _healthUI;
 
+    private Coroutine _dashCoroutine;
     #endregion
     private void Awake()
     {
-        _scene = GetComponent<SceneManager>();
+        _scene = GetComponent<SceneManagerScript>();
         _input = GameObject.Find("InputManager").GetComponent<InputManager>();
         _cameraMove = _camera.GetComponent<CameraMovement>();
     }
@@ -70,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnEnable()
     {
+        _dashEffect.ResetEffect();
         _dashAttack.SetActive(false);
     }
 
@@ -105,6 +118,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void DoDash()
     {
+        _dashEffect.StartCharge();
+        _dashCoroutine = StartCoroutine(ChargeDash());
         _playerfire.SetMainGunFireable();
         _scene.SetTime(0.2f);
         _turnigOverRoad = _overRoadScale * 2.5f;
@@ -112,8 +127,18 @@ public class PlayerMovement : MonoBehaviour
     }
     private void ResetDash()
     {
-        StartCoroutine(DashFoward());
-        
+        if (_speed > 5f && _dashable)
+        {
+            _dash.DashAttack();
+        }
+        else
+        {
+            _dashable = false;
+            StartCoroutine(SetDelay());
+        }
+        StopCoroutine(ChargeDash());
+        StopCoroutine(_dashCoroutine);
+        _dashEffect.ResetEffect();
         _turnigOverRoad = 1f;
         _scene.SetTime(1f);
         _isDash = false;
@@ -172,28 +197,28 @@ public class PlayerMovement : MonoBehaviour
         }
         else _speed = 0;
     }
-    private IEnumerator DashFoward()
+    
+    private IEnumerator SetDelay()
     {
-        _cameraMove?.CameraSet();
-        _dashAttack.SetActive(true);
-        _movementCollider.gameObject.SetActive(false);
-        _canRotate = false;
-
-        float pak = _speed;
-
-        _dashFoward = true;
-
-        yield return new WaitForSeconds(_dashTime);
-
-        _speed = pak;
-
-        _canRotate = true;
-        _dashFoward = false;
-        _dashAttack.SetActive(false);
-        _movementCollider.gameObject.SetActive(true);
-
         yield return null;
         _playerfire.SetMainGunFireable();
+    }
+
+    private IEnumerator ChargeDash()
+    {
+        _dashable = false;
+        yield return new WaitForSecondsRealtime(_chargingTime);
+        _dashable = true;
+    }
+
+    public void Defeat()
+    {
+
+    }
+    public void Damaged(float health, float maxHealth)
+    {
+        float temp = Mathf.InverseLerp(maxHealth, 0, health);
+        _healthUI.color = Color.Lerp(Color.green, Color.red, temp);
     }
     #endregion
 }

@@ -220,6 +220,7 @@ MonoBehaviour:
   _missle: {fileID: 6061106619148150674, guid: ee584b574fe912242bed0b42000442fe, type: 3}
   _target: {fileID: 0}
   _lockOnTime: 1
+  _missleUI: {fileID: 0}
   _missleAmount: 2
   _missleReroadTime: 8
 --- !u!1 &387684676
@@ -293,7 +294,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 682470833
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 6bbb3aeb8aa90e44a8aea2a60f5ed914, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -356,7 +357,6 @@ MonoBehaviour:
   _fireRate: 0.2
   _bulletFireSpeed: 0
   _bulletAcceleration: 0
-  _readyToFire: 0
 --- !u!50 &514500729
 Rigidbody2D:
   serializedVersion: 4
@@ -398,14 +398,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _turnigOverRoad: 1
   _turningSpeed: 3
+  _chargingTime: 0
   _overRoadScale: 1.5
   _dashTime: 0.4
   _camera: {fileID: 1869352764}
+  _brakeForce: 0
+  _dashAttack: {fileID: 0}
+  _movementCollider: {fileID: 0}
+  _playerfire: {fileID: 0}
+  _dash: {fileID: 0}
+  _canRotate: 1
   _dashFoward: 0
   _acceleration: 2
   _airResistance: 0.5
   _speed: 0
   _maxSpeed: 6
+  _dashEffect: {fileID: 0}
+  _healthUI: {fileID: 0}
 --- !u!4 &514500731
 Transform:
   m_ObjectHideFlags: 0
@@ -515,7 +524,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 682470833
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: -1
   m_Time: 0.5
   m_PreviewTimeScale: 1
@@ -847,7 +856,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 682470833
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: -1
   m_Time: 0.5
   m_PreviewTimeScale: 1
@@ -1026,7 +1035,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCharictor: {fileID: 514500730}
-  _cameraPos: {fileID: 1272849239}
+  virtualCamera: {fileID: 0}
 --- !u!1 &2064693603
 GameObject:
   m_ObjectHideFlags: 0
@@ -1098,7 +1107,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -179065907
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c31a49ac7a4f5f8449c155530c61aea4, type: 3}
   m_Color: {r: 0, g: 0.29613113, b: 1, a: 1}

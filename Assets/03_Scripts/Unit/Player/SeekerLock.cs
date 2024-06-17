@@ -17,6 +17,9 @@ public class SeekerLock : MonoBehaviour
 
     PolygonCollider2D _Collider;
 
+    [SerializeField]
+    MissleUI _missleUI;
+
     private bool _isFire;
 
     public int _missleAmount;
@@ -83,6 +86,8 @@ public class SeekerLock : MonoBehaviour
 
                 _missleAmount--;
 
+                _missleUI.Initialized(_missleAmount);
+
                 StartCoroutine(MissleColltime());
             }
         }
@@ -104,6 +109,8 @@ public class SeekerLock : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(_missleReroadTime);
         _missleAmount++;
+        _missleUI.Initialized(_missleAmount);
+
     }
 
 }

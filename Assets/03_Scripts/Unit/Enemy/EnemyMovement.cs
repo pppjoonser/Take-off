@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -10,27 +12,42 @@ public class EnemyMovement : MonoBehaviour
 
     EnemyCounter _enemyCounter;
 
-    float _directionY;
-    float _directionX;
-    [SerializeField] float _enemyTurningSpeed;
-    [SerializeField] float _speed;
-    private void Awake()
+    protected float _directionY;
+    protected float _directionX;
+    [SerializeField] protected float _enemyTurningSpeed;
+    [SerializeField] protected float _speed;
+    ParticleSystem particle;
+
+    protected CircleCollider2D _collider;
+    EnemyAttack _attack;
+    private bool _protected = true;
+
+    protected virtual void Awake()
     {
         playerfire = GameObject.Find("Player");
         _enemyCounter = FindObjectOfType<EnemyCounter>();
+        particle = GetComponentInChildren<ParticleSystem>();
+        _collider = GetComponentInChildren<CircleCollider2D>();
+        _attack = GetComponentInChildren<EnemyAttack>();
+    }
+    
+    protected virtual void OnEnable()
+    {
+        _protected = true;
+        _collider.enabled = true;
     }
     void FixedUpdate()
     {
         DirChange(TargetDegree());
         MoveForward();
     }
-    private void DirChange(float _rotateDegree)
+    protected virtual void DirChange(float _rotateDegree)
     {
         Quaternion targetRotation = Quaternion.Euler(0f, 0f, _rotateDegree - 90);
 
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * _enemyTurningSpeed);
     }
-    private float TargetDegree()
+    protected virtual float TargetDegree()
     {
         _playerSpeed = playerfire.GetComponentInParent<Rigidbody2D>().position;
         Vector3 objectPosition = transform.position;
@@ -40,7 +57,7 @@ public class EnemyMovement : MonoBehaviour
         float _rotateDegree = Mathf.Atan2(_directionY, _directionX) * Mathf.Rad2Deg;
         return _rotateDegree;
     }
-    private void MoveForward()
+    protected virtual void MoveForward()
     {
         float z = transform.rotation.eulerAngles.z + 90;
         Vector2 direction = new Vector2((Mathf.Cos(z * Mathf.Deg2Rad)), (Mathf.Sin(z * Mathf.Deg2Rad)));
@@ -49,7 +66,21 @@ public class EnemyMovement : MonoBehaviour
 
     public void Destroyed()
     {
-        EnemyCounter.Instance.EnemyDestroy();
+        if (_protected)
+        {
+            _attack._canDamage = false;
+            EnemyCounter.Instance?.EnemyDestroy();
+            particle?.Play();
+            _protected = false;
+            _collider.enabled = false;
+            StartCoroutine(Explosion());
+        }
+    }
+
+    private IEnumerator Explosion()
+    {
+        yield return new WaitForSeconds(0.6f);
         gameObject.SetActive(false);
+
     }
 }

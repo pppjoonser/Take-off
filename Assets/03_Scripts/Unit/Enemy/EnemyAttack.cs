@@ -6,17 +6,30 @@ public class EnemyAttack : MonoBehaviour
 {
     [SerializeField]
     private float _damage;
-    private bool _canDamage;
+    public bool _canDamage= true;
+    HealthManager _healthManager;
+    
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Awake()
     {
-        if (collision.CompareTag("Enemy"))
+        _healthManager = GetComponentInParent<HealthManager>();
+    }
+
+    private void OnEnable()
+    {
+        _canDamage = true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
         {
             if (_canDamage)
             {
                 StartCoroutine(AttackDelay());
-                HealthManager _playerHM = collision.GetComponentInParent<HealthManager>();
+                HealthManager _playerHM = collision.gameObject.GetComponentInParent<HealthManager>();
                 _playerHM.GetDamage(_damage);
+                _healthManager.Splash();
             }
         }
     }

@@ -18,7 +18,7 @@ public class CameraPointMove : MonoBehaviour
         Vector2 _direction = new Vector2((Mathf.Cos(z * Mathf.Deg2Rad)), (Mathf.Sin(z * Mathf.Deg2Rad)));
         _direction = _direction.normalized;
 
-        if (!_playerCharictor._dashFoward) { CameraPosSet(_direction, 2f);}
+        if (!_playerCharictor._dashFoward) { CameraPosSet(_direction, 3f);}
         else
         {
             //CameraPosSet(_direction, 3f);
