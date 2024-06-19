@@ -27,6 +27,14 @@ public class BossScript : EnemyMovement
     [SerializeField]
     private int _fireamount;
 
+    [SerializeField] private float _firedelay;
+
+    [SerializeField]
+    GameObject _misilePrefab;
+
+    Stack<GameObject> _misilePool = new Stack<GameObject>();
+
+
     protected override void Awake()
     {
         base.Awake();
@@ -39,6 +47,13 @@ public class BossScript : EnemyMovement
 
     private void Start()
     {
+        for(int i= 0; i < _fireamount; i++)
+        {
+            GameObject _misileTemp = Instantiate(_misilePrefab);
+            _misileTemp.SetActive(false);
+
+            _misilePool.Push(_misileTemp);
+        }
         StartCoroutine(StateChange());
     }
 
@@ -50,6 +65,19 @@ public class BossScript : EnemyMovement
             MoveForward();
         }
     }
+
+    private GameObject GetPool()
+    {
+        if(_misilePool.Count > 0)
+        {
+            return _misilePool.Pop();
+        }
+        else
+        {
+            return Instantiate(_misilePrefab);
+        }
+    }
+
 
     private IEnumerator StateChange()
     {
@@ -70,22 +98,20 @@ public class BossScript : EnemyMovement
         StartCoroutine(StateChange());
 
     }
-
-
     private IEnumerator Fire()
     {
         yield return null;
-        for(int i  = 0; i < _fireamount; i++)
+        for (int i = 0; i < _fireamount; i++)
         {
-            Debug.Log("fire");
-            yield return null;
+            GameObject _missleTemp = GetPool();
+            _missleTemp.SetActive(true);
+            _missleTemp.transform.position = transform.position;
+            _missleTemp.transform.rotation = transform.rotation;
+            yield return new WaitForSeconds(_firedelay);
         }
     }
-
     private IEnumerator DashFoward()
     {
-        Debug.Log("Dash");
-
         _speedTemp = _speed;
         _speed = _dashSpeed;
 
@@ -93,7 +119,6 @@ public class BossScript : EnemyMovement
 
         _speed = _speedTemp;
 
-        yield return new WaitForSeconds(0.2f);
     }
     public void Death()
     {

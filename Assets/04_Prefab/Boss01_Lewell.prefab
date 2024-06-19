@@ -160,8 +160,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46bb9cf372395b64888942754f7ce93d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 2
+  _maxHealth: 15
   _unitType: 0
+  _castCount: 1
 --- !u!114 &4841299687228079695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,11 +177,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyTurningSpeed: 1.5
   _speed: 6
-  _attackDelay: 3
+  _deathDelay: 0.6
+  _attackDelay: 8
   _dashSpeed: 30
   _dashAttack: {fileID: 0}
   _dashTime: 1
-  _fireamount: 4
+  _fireamount: 6
+  _firedelay: 0.1
+  _misilePrefab: {fileID: 4948098373228336369, guid: 56a5b66e472ddae47b97231abe3e8e35, type: 3}
 --- !u!1 &8446706860484019025
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,7 +201,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7999877670749063595
 Transform:
   m_ObjectHideFlags: 0
@@ -346,4 +350,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 2
+  _selfDestroy: 0
   _canDamage: 1

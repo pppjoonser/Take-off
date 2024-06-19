@@ -21,6 +21,7 @@ public class InputManager : MonoBehaviour
     public event Action _onDashButton;
     public event Action _offDashButton;
     public event Action _engineIdle;
+    public event Action _onEnter;
 
     float _directionY;
     float _directionX;
@@ -107,5 +108,12 @@ public class InputManager : MonoBehaviour
         Fire();
         StartDash();
         EndDash();
+        EnterInput();
+    }
+
+    public void EnterInput()
+    {
+        if (Input.GetKeyUp(KeyCode.Return))
+            _onEnter?.Invoke();
     }
 }

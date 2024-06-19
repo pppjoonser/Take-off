@@ -6,11 +6,14 @@ public class EnemyManager : MonoBehaviour
 {
     [SerializeField] GameObject _enemyPrefab;
     [SerializeField] private GameObject[] _spawnPoint;
+    [SerializeField] private GameObject _Boss;
 
     public float _enemySpawnFactor;
     private float _createMaxTime;
     private float _createMinTime;
     private float _enemyTimer;
+
+    private bool _canSpawn = true;
 
 
     private void Start()
@@ -22,7 +25,7 @@ public class EnemyManager : MonoBehaviour
     {
         _enemyTimer += Time.deltaTime;
 
-        if (_enemyTimer > 1/_enemySpawnFactor && (EnemyCounter.Instance.GetLimit() > EnemyCounter.Instance.GetScore()))
+        if (_enemyTimer > 1/_enemySpawnFactor && (EnemyCounter.Instance.GetLimit() > EnemyCounter.Instance.GetScore())&&_canSpawn)
         {
             _enemyTimer = 0;
 
@@ -35,5 +38,15 @@ public class EnemyManager : MonoBehaviour
             EnemyCounter.Instance.EnemyIncrease(EnemyCounter.Instance.GetScore()+1);
             
         }
+    }
+
+    public void StopSpawn()
+    {
+        _canSpawn = false;
+    }
+
+    public void BossSpawn()
+    {
+        Instantiate(_Boss);
     }
 }

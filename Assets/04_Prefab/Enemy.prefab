@@ -136,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyTurningSpeed: 1.5
   _speed: 8
+  _deathDelay: 0.6
 --- !u!50 &7588537009422551779
 Rigidbody2D:
   serializedVersion: 4
@@ -176,6 +177,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 2
+  _unitType: 0
+  _castCount: 1
 --- !u!1 &8446706860484019025
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,6 +344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 1
+  _selfDestroy: 1
   _canDamage: 1
 --- !u!1001 &6962043796433589999
 PrefabInstance:

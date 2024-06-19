@@ -7,6 +7,9 @@ public class SeekerLock : MonoBehaviour
     public float _lockOnRange;
     [SerializeField] GameObject _missle;
 
+    [SerializeField]
+    GameObject _lockOnUI;
+
     float _directionY;
     float _directionX;
 

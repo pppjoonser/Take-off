@@ -22,8 +22,6 @@ public class DashAttack : MonoBehaviour
     }
     private IEnumerator AttackDelay()
     {
-        _canDamage = false;
-        yield return new WaitForSeconds(0.04f);
-        _canDamage = true;
+        yield return new WaitForSeconds(0.02f);
     }
 }

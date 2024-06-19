@@ -16,6 +16,7 @@ public class EnemyMovement : MonoBehaviour
     protected float _directionX;
     [SerializeField] protected float _enemyTurningSpeed;
     [SerializeField] protected float _speed;
+    [SerializeField] float _deathDelay;
     ParticleSystem particle;
 
     protected CircleCollider2D _collider;
@@ -77,9 +78,14 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
+    public void ImmidateDestroy()
+    {
+        StartCoroutine(Explosion());
+    }
+
     private IEnumerator Explosion()
     {
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(_deathDelay);
         gameObject.SetActive(false);
 
     }

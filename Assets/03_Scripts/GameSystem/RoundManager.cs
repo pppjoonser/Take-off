@@ -8,7 +8,6 @@ public class RoundManager : MonoBehaviour
 {
     [SerializeField]
     private Slider _TimerUI;
-    [SerializeField]
     private float _roundTimer;
     private float _currentTime;
     public static RoundManager Instance = null;
@@ -17,11 +16,12 @@ public class RoundManager : MonoBehaviour
     private EnemyCounter _enemyCounter;
 
     [SerializeField]
-    private int[] leveling, _timer;
+    private float[]  _timer;
     private int _indexer = 0;
 
     private void StartTimer()
     {
+        _roundTimer = _timer[_indexer];
         _currentTime = _roundTimer;
     }
     private void SetTimer()
@@ -42,17 +42,23 @@ public class RoundManager : MonoBehaviour
         _currentTime -= Time.deltaTime;
         if(_currentTime < 0)
         {
-            //NextWave();
+            TimeOver();
         }
         SetTimer();
     }
-
-    private void NextWave()
+    public void NextTimer()
     {
-        _enemyCounter.ResetCount();
-        _enemyCounter.EnemyLimit = leveling[_indexer];
-        _roundTimer = _timer[_indexer];
-        StartTimer();
-        _indexer++;
+            _indexer++;
+        if (_indexer < _timer.Length)
+        {
+            _TimerUI.value = 1;
+
+            _roundTimer = _timer[_indexer];
+            _currentTime = _roundTimer;
+        }
+    }
+    private void TimeOver()
+    {
+        
     }
 }

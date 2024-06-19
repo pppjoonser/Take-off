@@ -10,6 +10,8 @@ public class HealthManager : MonoBehaviour
     [SerializeField]
     private int _unitType;
 
+    [SerializeField]
+    bool _castCount;
     
     EnemyMovement _enemy;
     PlayerMovement _player;
@@ -52,19 +54,25 @@ public class HealthManager : MonoBehaviour
     
     public void Splash()
     {
-        switch (_unitType)
+        if(_castCount) {
+            switch (_unitType)
+            {
+                case 0:
+                    _enemy?.Destroyed();
+                    break;
+
+                case 1:
+                    _player?.Defeat();
+                    break;
+
+                case 2:
+                    _boss?.Death();
+                    break;
+            }
+        }
+        else
         {
-            case 0:
-            _enemy?.Destroyed();
-            break;
-
-            case 1:
-            _player?.Defeat();
-            break;
-
-            case 2:
-            _boss?.Death();
-            break;
+            _enemy?.ImmidateDestroy();
         }
     }
 }
