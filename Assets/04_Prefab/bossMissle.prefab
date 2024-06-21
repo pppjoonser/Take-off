@@ -157,7 +157,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_Interpolate: 2
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -177,6 +177,8 @@ MonoBehaviour:
   _maxHealth: 1
   _unitType: 0
   _castCount: 0
+  _selfDestroy: 1
+  _destroyTime: 8
 --- !u!1 &8534208297203546815
 GameObject:
   m_ObjectHideFlags: 0

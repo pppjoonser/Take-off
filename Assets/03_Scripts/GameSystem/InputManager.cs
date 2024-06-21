@@ -8,6 +8,8 @@ public class InputManager : MonoBehaviour
 {
     //¼±¾ðºÎ
     #region
+    private bool _canInput = false;
+
     public event Action _OnMouseMove;
     public event Action _CantMouseMove;
 
@@ -74,6 +76,7 @@ public class InputManager : MonoBehaviour
             _offDashButton?.Invoke();
     }
 
+
     private void Mouseinput()
     {
         if (Input.GetKey(KeyCode.R))
@@ -100,14 +103,17 @@ public class InputManager : MonoBehaviour
     }
     private void Update()
     {
+        if (_canInput)
+        {
+            SpaceButton();
+            Acceleration();
+            BrakeButton();
+            AfterBurner();
+            Fire();
+            StartDash();
+            EndDash();
+        }
         Mouseinput();
-        SpaceButton();
-        Acceleration();
-        BrakeButton();
-        AfterBurner();
-        Fire();
-        StartDash();
-        EndDash();
         EnterInput();
     }
 
@@ -115,5 +121,10 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Return))
             _onEnter?.Invoke();
+    }
+
+    public void Toggle(bool _setting)
+    {
+        _canInput = _setting;
     }
 }

@@ -89,7 +89,7 @@ public class SeekerLock : MonoBehaviour
 
                 _missleAmount--;
 
-                _missleUI.Initialized(_missleAmount);
+                _missleUI?.Initialized(_missleAmount);
 
                 StartCoroutine(MissleColltime());
             }
@@ -112,7 +112,7 @@ public class SeekerLock : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(_missleReroadTime);
         _missleAmount++;
-        _missleUI.Initialized(_missleAmount);
+        _missleUI?.Initialized(_missleAmount);
 
     }
 

@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialUI : MonoBehaviour
 {
-
+    private Image _panal;
     private InputManager _inputManager;
+
+    [SerializeField]
+    private SceneManagerScript _scene;
 
     [SerializeField]
     private GameObject[] _TutorialUI;
@@ -16,6 +20,7 @@ public class TutorialUI : MonoBehaviour
     private void Awake()
     {
         _inputManager = FindAnyObjectByType<InputManager>();
+        _panal =GetComponent<Image>();
     }
 
     private void OnEnable()
@@ -25,7 +30,8 @@ public class TutorialUI : MonoBehaviour
 
     public void ToNextTutorial()
     {
-        StartCoroutine(NextTutorial());
+        if (_TutorialUICount < _TutorialUI.Length) StartCoroutine(NextTutorial());
+        else _scene.ToTitle();
     }
 
     private void OnDisable()
@@ -37,7 +43,21 @@ public class TutorialUI : MonoBehaviour
         _TutorialUI[_TutorialUICount].SetActive(false);
         _TutorialUICount++;
 
+        while (_panal.color.a >= 0)
+        {
+            _panal.color -= new Color(0,0,0,0.01f);
+            yield return null;
+        }
+
+
         yield return new WaitForSeconds(0.2f);
-        _TutorialUI[_TutorialUICount ]?.SetActive(true);
+        if(_TutorialUICount < _TutorialUI.Length) _TutorialUI[_TutorialUICount ]?.SetActive(true);
+        else _scene.ToTitle();
+
+        while (_panal.color.a <= 1)
+        {
+            _panal.color += new Color(0, 0, 0, 0.01f);
+            yield return null;
+        }
     }
 }

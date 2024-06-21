@@ -42,7 +42,7 @@ public class EnemyMovement : MonoBehaviour
         DirChange(TargetDegree());
         MoveForward();
     }
-    protected virtual void DirChange(float _rotateDegree)
+    protected void DirChange(float _rotateDegree)
     {
         Quaternion targetRotation = Quaternion.Euler(0f, 0f, _rotateDegree - 90);
 
@@ -65,7 +65,7 @@ public class EnemyMovement : MonoBehaviour
         GetComponent<Rigidbody2D>().velocity = direction * _speed;
     }
 
-    public void Destroyed()
+    public virtual void Destroyed()
     {
         if (_protected)
         {

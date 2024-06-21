@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using DG.Tweening;
 public class EnemyCounter : MonoBehaviour
 {
     [SerializeField]
@@ -11,6 +11,9 @@ public class EnemyCounter : MonoBehaviour
 
     [SerializeField]
     private GameObject _boss1;
+
+    [SerializeField]
+    private ScriptControler _scriptControler;
 
     private int _enemyLimit;
     public int _enemyCount = 0;
@@ -102,6 +105,22 @@ public class EnemyCounter : MonoBehaviour
                 BossCall();
             }
         }
+
+        StartCoroutine(SetRespawn());
+        StartCoroutine(TextOn());
+    }
+
+    private IEnumerator SetRespawn()
+    {
+        _dead = true;
+        yield return new WaitForSeconds(4);
+        _dead = false;
+    }
+
+    private IEnumerator TextOn()
+    {
+        yield return new WaitForSecondsRealtime(2f);
+        _scriptControler.ShowTextBox();
     }
 
     private void BossCall()
@@ -114,6 +133,8 @@ public class EnemyCounter : MonoBehaviour
 
     private void UIset (int value)
     {
-        TargetUI.value = Mathf.InverseLerp(0, EnemyLimit, EnemyLimit-value);
+        TargetUI.DOValue(Mathf.InverseLerp(0, EnemyLimit, EnemyLimit - value), 0.5f);
+
+
     }
 }

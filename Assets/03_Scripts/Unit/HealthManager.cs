@@ -12,6 +12,10 @@ public class HealthManager : MonoBehaviour
 
     [SerializeField]
     bool _castCount;
+    [SerializeField]
+    private bool _selfDestroy;
+    [SerializeField]
+    private float _destroyTime;
     
     EnemyMovement _enemy;
     PlayerMovement _player;
@@ -24,6 +28,11 @@ public class HealthManager : MonoBehaviour
     }
     private void Start()
     {
+        if (_selfDestroy)
+        {
+            StartCoroutine(SelfDestroy());
+        }
+
         switch (_unitType)
         {
             case 0:
@@ -45,6 +54,7 @@ public class HealthManager : MonoBehaviour
         {
             _player?.Damaged(_currentHealth, _maxHealth);
         }
+
         if( _currentHealth <= 0 ) 
         { 
             Splash(); 
@@ -74,5 +84,11 @@ public class HealthManager : MonoBehaviour
         {
             _enemy?.ImmidateDestroy();
         }
+    }
+
+    IEnumerator SelfDestroy()
+    {
+        yield return new WaitForSeconds(_destroyTime);
+        Splash();
     }
 }

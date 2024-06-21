@@ -44,6 +44,10 @@ public class EnemyManager : MonoBehaviour
     {
         _canSpawn = false;
     }
+    public void ResumeSpawn()
+    {
+        _canSpawn = true;
+    }
 
     public void BossSpawn()
     {

@@ -27,12 +27,13 @@ public class BossScript : EnemyMovement
     [SerializeField]
     private int _fireamount;
 
-    [SerializeField] private float _firedelay;
+    [SerializeField] 
+    private float _firedelay;
 
     [SerializeField]
     GameObject _misilePrefab;
 
-    Stack<GameObject> _misilePool = new Stack<GameObject>();
+    public Stack<GameObject> _misilePool = new Stack<GameObject>();
 
 
     protected override void Awake()
@@ -101,12 +102,20 @@ public class BossScript : EnemyMovement
     private IEnumerator Fire()
     {
         yield return null;
-        for (int i = 0; i < _fireamount; i++)
+        for (int i = 0; i < _fireamount/2; i++)
         {
             GameObject _missleTemp = GetPool();
             _missleTemp.SetActive(true);
             _missleTemp.transform.position = transform.position;
-            _missleTemp.transform.rotation = transform.rotation;
+            _missleTemp.transform.rotation = Quaternion.Euler(0,0,transform.rotation.z+90);
+            yield return new WaitForSeconds(_firedelay);
+        }
+        for (int i = 0; i < _fireamount/2; i++)
+        {
+            GameObject _missleTemp = GetPool();
+            _missleTemp.SetActive(true);
+            _missleTemp.transform.position = transform.position;
+            _missleTemp.transform.rotation = Quaternion.Euler(0, 0, transform.rotation.z - 90);
             yield return new WaitForSeconds(_firedelay);
         }
     }
@@ -122,6 +131,6 @@ public class BossScript : EnemyMovement
     }
     public void Death()
     {
-
+        Destroyed();
     }
 }

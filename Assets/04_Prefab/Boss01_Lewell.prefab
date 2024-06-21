@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 15
-  _unitType: 0
+  _unitType: 2
   _castCount: 1
 --- !u!114 &4841299687228079695
 MonoBehaviour:

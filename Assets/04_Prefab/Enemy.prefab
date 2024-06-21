@@ -179,6 +179,8 @@ MonoBehaviour:
   _maxHealth: 2
   _unitType: 0
   _castCount: 1
+  _selfDestroy: 0
+  _destroyTime: 0
 --- !u!1 &8446706860484019025
 GameObject:
   m_ObjectHideFlags: 0

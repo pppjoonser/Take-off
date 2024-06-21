@@ -60,12 +60,16 @@ public class PlayerMovement : MonoBehaviour
     Image _healthUI;
 
     private Coroutine _dashCoroutine;
+
+    [SerializeField]
+    GameObject _DefeatPanal;
     #endregion
     private void Awake()
     {
         _scene = GetComponent<SceneManagerScript>();
         _input = GameObject.Find("InputManager").GetComponent<InputManager>();
         _cameraMove = _camera.GetComponent<CameraMovement>();
+        transform.rotation = Quaternion.Euler(0,0,-45);
     }
 
     private void Start()
@@ -191,11 +195,11 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Idle()
     {
-        if (_speed > 0)
+        if (_speed > 2)
         {
             _speed -= _airResistance * Time.deltaTime;
         }
-        else _speed = 0;
+        else _speed = 2;
     }
     
     private IEnumerator SetDelay()
@@ -213,7 +217,14 @@ public class PlayerMovement : MonoBehaviour
 
     public void Defeat()
     {
+        _DefeatPanal.SetActive(true);
+        StartCoroutine(SetDelay());
+    }
 
+    private IEnumerator DelayTimer()
+    {
+        yield return new WaitForEndOfFrame();
+        _scene.SetTime(0);
     }
     public void Damaged(float health, float maxHealth)
     {

@@ -25,6 +25,11 @@ public class SceneManagerScript : MonoBehaviour
         SceneManager.LoadScene("Tutorial");
     }
 
+    public void ToTitle()
+    {
+        SceneManager.LoadScene("Title");
+    }
+
     public void QuitGame()
     {
         Application.Quit();
