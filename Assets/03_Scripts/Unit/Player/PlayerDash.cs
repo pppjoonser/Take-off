@@ -47,7 +47,7 @@ public class PlayerDash : MonoBehaviour
         _movementCollider.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(0.04f);
-        _playerfire.SetMainGunFireable();
+        _playerfire.SetMainGunFireable(true);
         yield return new WaitForSeconds(0.2f);
         _movement._canRotate = true;
     }

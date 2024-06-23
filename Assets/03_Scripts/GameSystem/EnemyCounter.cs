@@ -13,6 +13,9 @@ public class EnemyCounter : MonoBehaviour
     private GameObject _boss1;
 
     [SerializeField]
+    private HealthManager _playerHealthManager;
+
+    [SerializeField]
     private ScriptControler _scriptControler;
 
     private int _enemyLimit;
@@ -105,15 +108,17 @@ public class EnemyCounter : MonoBehaviour
                 BossCall();
             }
         }
+        _playerHealthManager.HealthRestore();
 
         StartCoroutine(SetRespawn());
         StartCoroutine(TextOn());
+
     }
 
     private IEnumerator SetRespawn()
     {
         _dead = true;
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(2);
         _dead = false;
     }
 
@@ -127,7 +132,7 @@ public class EnemyCounter : MonoBehaviour
     {
         _enemyManager.StopSpawn();
         _enemyManager.BossSpawn();
-        
+        _scriptControler.ShowTextBox();
         
     }
 

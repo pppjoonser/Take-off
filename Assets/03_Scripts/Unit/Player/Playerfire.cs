@@ -17,7 +17,6 @@ public class Playerfire : MonoBehaviour
     static PlayerMovement _PC;
 
     private bool _readyToFire = true;
-    bool toggle = true;
 
     public Stack<GameObject> bulletPool = new Stack<GameObject>();
 
@@ -67,17 +66,16 @@ public class Playerfire : MonoBehaviour
         }
     }
 
-    public void SetMainGunFireable()
+    public void SetMainGunFireable(bool setting)
     {
-        if (toggle)
-        {
-            _inputManager._onFire -= PlayerFire;
-        }
-        else 
+        if (setting)
         {
             _inputManager._onFire += PlayerFire;
         }
-        toggle = !toggle;
+        else 
+        {
+            _inputManager._onFire -= PlayerFire;
+        }
     }
 
     IEnumerator ShootCoolTime()

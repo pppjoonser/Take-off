@@ -124,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _dashEffect.StartCharge();
         _dashCoroutine = StartCoroutine(ChargeDash());
-        _playerfire.SetMainGunFireable();
+        _playerfire.SetMainGunFireable(false);
         _scene.SetTime(0.2f);
         _turnigOverRoad = _overRoadScale * 2.5f;
         _isDash = true;
@@ -205,7 +205,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator SetDelay()
     {
         yield return null;
-        _playerfire.SetMainGunFireable();
+        _playerfire.SetMainGunFireable(true);
     }
 
     private IEnumerator ChargeDash()

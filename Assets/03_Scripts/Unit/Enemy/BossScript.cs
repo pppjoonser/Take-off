@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using static UnityEditor.SceneView;
 
 using Random = UnityEngine.Random;
@@ -33,13 +34,14 @@ public class BossScript : EnemyMovement
     [SerializeField]
     GameObject _misilePrefab;
 
-    public Stack<GameObject> _misilePool = new Stack<GameObject>();
+    private ScriptControler _controler;
 
+    public Stack<GameObject> _misilePool = new Stack<GameObject>();
 
     protected override void Awake()
     {
         base.Awake();
-
+        _controler = FindAnyObjectByType<ScriptControler>();
     }
     protected override void OnEnable()
     {
@@ -131,6 +133,13 @@ public class BossScript : EnemyMovement
     }
     public void Death()
     {
+        _controler.ShowTextBox();
+        StartCoroutine(Delay());
+    }
+
+    private IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(1);
         Destroyed();
     }
 }

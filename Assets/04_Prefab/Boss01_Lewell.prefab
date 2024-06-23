@@ -163,6 +163,8 @@ MonoBehaviour:
   _maxHealth: 15
   _unitType: 2
   _castCount: 1
+  _selfDestroy: 0
+  _destroyTime: 1
 --- !u!114 &4841299687228079695
 MonoBehaviour:
   m_ObjectHideFlags: 0

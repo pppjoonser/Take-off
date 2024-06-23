@@ -21,16 +21,11 @@ public class HealthManager : MonoBehaviour
     PlayerMovement _player;
     BossScript _boss;
 
-    private void Awake()
-    {
-        _currentHealth = _maxHealth;
-
-    }
     private void Start()
     {
         if (_selfDestroy)
         {
-            StartCoroutine(SelfDestroy());
+            SetHealth();
         }
 
         switch (_unitType)
@@ -61,7 +56,14 @@ public class HealthManager : MonoBehaviour
         }
     }
 
-    
+    public void HealthRestore()
+    {
+        _currentHealth = _maxHealth;
+        if (_unitType == 1)
+        {
+            _player?.Damaged(_currentHealth, _maxHealth);
+        }
+    }
     public void Splash()
     {
         if(_castCount) {
@@ -84,6 +86,11 @@ public class HealthManager : MonoBehaviour
         {
             _enemy?.ImmidateDestroy();
         }
+    }
+    
+    public void SetHealth()
+    {
+        StartCoroutine(SelfDestroy());
     }
 
     IEnumerator SelfDestroy()

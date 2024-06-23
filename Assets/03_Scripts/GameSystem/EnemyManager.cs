@@ -15,6 +15,7 @@ public class EnemyManager : MonoBehaviour
 
     private bool _canSpawn = true;
 
+    public Stack<GameObject> _spawnStack = new Stack<GameObject>();
 
     private void Start()
     {
@@ -31,12 +32,28 @@ public class EnemyManager : MonoBehaviour
 
             int _spawnPosition = Random.Range(0, 8);
 
-            GameObject _enemyCreate = Instantiate(_enemyPrefab);
+            GameObject _enemyCreate = EnemyStack();
+
+            _enemyCreate.SetActive(true);
+
+            _enemyCreate.transform.parent = gameObject.transform;
 
             _enemyCreate.transform.position = _spawnPoint[_spawnPosition].transform.position;
 
             EnemyCounter.Instance.EnemyIncrease(EnemyCounter.Instance.GetScore()+1);
             
+        }
+    }
+
+    private GameObject EnemyStack()
+    {
+        if (_spawnStack.Count > 0) 
+        { 
+            return _spawnStack.Pop();
+        }
+        else
+        {
+            return Instantiate(_enemyPrefab, gameObject.transform);
         }
     }
 
@@ -51,6 +68,8 @@ public class EnemyManager : MonoBehaviour
 
     public void BossSpawn()
     {
-        Instantiate(_Boss);
+        int _spawnPosition = Random.Range(0, 8);
+
+        Instantiate(_Boss, null, _spawnPoint[_spawnPosition]);
     }
 }

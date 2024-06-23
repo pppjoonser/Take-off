@@ -23,6 +23,8 @@ public class EnemyMovement : MonoBehaviour
     EnemyAttack _attack;
     private bool _protected = true;
 
+    private EnemyManager _enemyManager;
+
     protected virtual void Awake()
     {
         playerfire = GameObject.Find("Player");
@@ -30,12 +32,15 @@ public class EnemyMovement : MonoBehaviour
         particle = GetComponentInChildren<ParticleSystem>();
         _collider = GetComponentInChildren<CircleCollider2D>();
         _attack = GetComponentInChildren<EnemyAttack>();
+        _enemyManager = GetComponentInParent<EnemyManager>();
     }
     
     protected virtual void OnEnable()
     {
         _protected = true;
         _collider.enabled = true;
+        _attack._canDamage = true;
+
     }
     void FixedUpdate()
     {
@@ -86,6 +91,7 @@ public class EnemyMovement : MonoBehaviour
     private IEnumerator Explosion()
     {
         yield return new WaitForSeconds(_deathDelay);
+        _enemyManager._spawnStack.Push(gameObject);
         gameObject.SetActive(false);
 
     }
