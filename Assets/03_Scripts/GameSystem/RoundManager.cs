@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,8 @@ public class RoundManager : MonoBehaviour
     private float _roundTimer;
     private float _currentTime;
     public static RoundManager Instance = null;
+    [SerializeField] private GameObject _failUI;
+    private SceneManagerScript _scene;
 
     [SerializeField]
     private EnemyCounter _enemyCounter;
@@ -36,6 +39,7 @@ public class RoundManager : MonoBehaviour
             Instance = this;
         }
         StartTimer();
+        _scene = FindObjectOfType<SceneManagerScript>();
     }
     private void FixedUpdate()
     {
@@ -59,6 +63,7 @@ public class RoundManager : MonoBehaviour
     }
     private void TimeOver()
     {
-        
+        _scene.SetTime(0);
+        _failUI.SetActive(true);
     }
 }

@@ -99,7 +99,7 @@ public class EnemyMovement : MonoBehaviour
         _source.Play();
         yield return new WaitForSeconds(_deathDelay);
 
-        _bossScript = GameObject.Find("Boss01_Lewell").GetComponent<BossScript>();
+        _bossScript = FindObjectOfType<BossScript>();
         _bossScript?._misilePool.Push(gameObject);
         gameObject.SetActive(false);
 

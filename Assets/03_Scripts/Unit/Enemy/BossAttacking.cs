@@ -12,9 +12,9 @@ public class BossAttacking : EnemyAttack
     }
     protected override IEnumerator AttackDelay()
     {
-        base.AttackDelay();
         _collider.enabled = false;
         yield return new WaitForSeconds(1);
         _collider.enabled = true;
+        base.AttackDelay();
     }
 }

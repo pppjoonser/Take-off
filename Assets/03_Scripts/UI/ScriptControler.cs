@@ -30,7 +30,7 @@ public class ScriptControler : MonoBehaviour
         _scriptUI[_index].SetActive(false);
         _index++;
         _scene.SetTime(1);
-        if (_scriptUI[_index] == null)
+        if (_index > _scriptUI.Length)
         {
             _scene.ToTitle();
         }

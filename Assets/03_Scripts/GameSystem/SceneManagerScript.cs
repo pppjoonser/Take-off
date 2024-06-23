@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class SceneManagerScript : MonoBehaviour
 {
     public static SceneManagerScript Instance;
+    private InputManager _input;
 
     private void Awake()
     {
@@ -13,6 +14,13 @@ public class SceneManagerScript : MonoBehaviour
         {
             Instance = this;
         }
+
+        _input = FindObjectOfType<InputManager>();
+    }
+
+    private void Start()
+    {
+        _input._onExit += ToTitle;
     }
 
     public void GameStart()

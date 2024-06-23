@@ -24,6 +24,7 @@ public class InputManager : MonoBehaviour
     public event Action _offDashButton;
     public event Action _engineIdle;
     public event Action _onEnter;
+    public event Action _onExit;
 
     float _directionY;
     float _directionX;
@@ -88,6 +89,14 @@ public class InputManager : MonoBehaviour
             _CantMouseMove?.Invoke();
         }
     }
+
+    private void Escape()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            _onExit?.Invoke();
+        }
+    }
     #endregion
     public float GetMouseDeg(Vector3 objectPosition)
     {
@@ -115,6 +124,7 @@ public class InputManager : MonoBehaviour
         }
         Mouseinput();
         EnterInput();
+        Escape();
     }
 
     public void EnterInput()
