@@ -12,7 +12,7 @@ public class EnemyAttack : MonoBehaviour
     HealthManager _healthManager;
     
 
-    private void Awake()
+    protected virtual void Awake()
     {
         _healthManager = GetComponentInParent<HealthManager>();
     }
@@ -22,7 +22,7 @@ public class EnemyAttack : MonoBehaviour
         _canDamage = true;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player") )
         {
@@ -39,10 +39,10 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
-    private IEnumerator AttackDelay()
+    protected virtual IEnumerator AttackDelay()
     {
         _canDamage = false;
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSecondsRealtime(0.2f);
         _canDamage = true;
     }
 }

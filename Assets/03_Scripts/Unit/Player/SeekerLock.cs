@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class SeekerLock : MonoBehaviour
 {
+    [SerializeField] private AudioClip _lunch;
+    private AudioSource _source;
+
     public float _lockOnRange;
     [SerializeField] GameObject _missle;
 
@@ -33,6 +36,7 @@ public class SeekerLock : MonoBehaviour
     private void Awake()
     {
         _Collider = GetComponent<PolygonCollider2D>();
+        _source = GetComponent<AudioSource>();
     }
     private void Start()
     {
@@ -81,6 +85,8 @@ public class SeekerLock : MonoBehaviour
 
                 GameObject _missleLocation = GetPool();
                 _missleLocation.SetActive(true);
+                _source.clip = _lunch;
+                _source.Play();
 
                 _missleLocation.transform.position = transform.position;
                 _missleLocation.transform.rotation = transform.rotation;

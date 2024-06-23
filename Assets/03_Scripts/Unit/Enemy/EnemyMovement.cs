@@ -6,6 +6,10 @@ using static UnityEngine.ParticleSystem;
 
 public class EnemyMovement : MonoBehaviour
 {
+    [SerializeField] private AudioClip _explosion;
+
+    private AudioSource _source;
+
     GameObject playerfire;
 
     Vector3 _playerSpeed;
@@ -24,6 +28,7 @@ public class EnemyMovement : MonoBehaviour
     private bool _protected = true;
 
     private EnemyManager _enemyManager;
+    private BossScript _bossScript;
 
     protected virtual void Awake()
     {
@@ -33,8 +38,9 @@ public class EnemyMovement : MonoBehaviour
         _collider = GetComponentInChildren<CircleCollider2D>();
         _attack = GetComponentInChildren<EnemyAttack>();
         _enemyManager = GetComponentInParent<EnemyManager>();
+        _source = GetComponent<AudioSource>();
     }
-    
+
     protected virtual void OnEnable()
     {
         _protected = true;
@@ -85,11 +91,24 @@ public class EnemyMovement : MonoBehaviour
 
     public void ImmidateDestroy()
     {
-        StartCoroutine(Explosion());
+        StartCoroutine(SelfDestroy());
+    }
+    private IEnumerator SelfDestroy()
+    {
+        _source.clip = _explosion;
+        _source.Play();
+        yield return new WaitForSeconds(_deathDelay);
+
+        _bossScript = GameObject.Find("Boss01_Lewell").GetComponent<BossScript>();
+        _bossScript?._misilePool.Push(gameObject);
+        gameObject.SetActive(false);
+
     }
 
     private IEnumerator Explosion()
     {
+        _source.clip = _explosion;
+        _source.Play();
         yield return new WaitForSeconds(_deathDelay);
         _enemyManager._spawnStack.Push(gameObject);
         gameObject.SetActive(false);

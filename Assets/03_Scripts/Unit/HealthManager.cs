@@ -1,6 +1,9 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class HealthManager : MonoBehaviour
 {
@@ -16,6 +19,8 @@ public class HealthManager : MonoBehaviour
     private bool _selfDestroy;
     [SerializeField]
     private float _destroyTime;
+
+    private bool _damageable = true;
     
     EnemyMovement _enemy;
     PlayerMovement _player;
@@ -42,17 +47,26 @@ public class HealthManager : MonoBehaviour
         }
         
     }
+
+    private void OnEnable()
+    {
+        _damageable = true;
+        HealthRestore();
+    }
     public void GetDamage(float damage)
     {
-        _currentHealth -= damage;
-        if(_unitType == 1)
-        {
-            _player?.Damaged(_currentHealth, _maxHealth);
-        }
-
-        if( _currentHealth <= 0 ) 
-        { 
-            Splash(); 
+        if (_damageable) { 
+            _currentHealth -= damage;
+            StartCoroutine(DamageDelay());
+            if (_unitType == 1)
+            {
+               _player?.Damaged(_currentHealth, _maxHealth);
+            }
+            
+            if (_currentHealth <= 0)
+            {
+               Splash();
+            }
         }
     }
 
@@ -97,5 +111,12 @@ public class HealthManager : MonoBehaviour
     {
         yield return new WaitForSeconds(_destroyTime);
         Splash();
+    }
+
+    private IEnumerator DamageDelay()
+    {
+        _damageable = false;
+        yield return new WaitForSecondsRealtime(0.04f);
+        _damageable = true;
     }
 }

@@ -29,8 +29,11 @@ public class ScriptControler : MonoBehaviour
         _input.Toggle(true);
         _scriptUI[_index].SetActive(false);
         _index++;
-
         _scene.SetTime(1);
+        if (_scriptUI[_index] == null)
+        {
+            _scene.ToTitle();
+        }
     }
 
     public void ShowTextBox()

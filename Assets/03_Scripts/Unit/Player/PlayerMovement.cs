@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -178,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
     private void AfterBurn()
     {
         _acceleration = 4;
-        _maxSpeed = 12;
+        _maxSpeed = 8;
     }
     private void OffAfterBurn()
     {

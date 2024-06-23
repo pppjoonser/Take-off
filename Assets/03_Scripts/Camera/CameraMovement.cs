@@ -27,7 +27,7 @@ public class CameraMovement : MonoBehaviour
 
     private void CameraSizeSet(float _targetSize)
     {
-        virtualCamera.m_Lens.OrthographicSize = _targetSize / 2.5f + 1;
+        virtualCamera.m_Lens.OrthographicSize = _targetSize / 2f + 1;
     }
 
     public void CameraSet()

@@ -9,4 +9,5 @@ public class ButtonSelfActivate : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+
 }

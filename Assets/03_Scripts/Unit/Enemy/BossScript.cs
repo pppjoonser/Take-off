@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using static UnityEditor.SceneView;
 
 using Random = UnityEngine.Random;
 
@@ -120,6 +119,8 @@ public class BossScript : EnemyMovement
             _missleTemp.transform.rotation = Quaternion.Euler(0, 0, transform.rotation.z - 90);
             yield return new WaitForSeconds(_firedelay);
         }
+
+        yield return new WaitForSeconds(_attackDelay);
     }
     private IEnumerator DashFoward()
     {

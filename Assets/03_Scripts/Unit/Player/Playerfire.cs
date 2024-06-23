@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Playerfire : MonoBehaviour
 {
+    [SerializeField] private AudioClip _fire;
+
+    private AudioSource _source;
+
     public GameObject bulletPrefab;
     public GameObject FirePos;
     public float _fireRate;
@@ -27,6 +31,7 @@ public class Playerfire : MonoBehaviour
     private void Awake()
     {
         _inputManager = GameObject.Find("InputManager").GetComponent<InputManager>();
+        _source = GetComponent<AudioSource>();
     }
     private void Start()
     {
@@ -60,6 +65,8 @@ public class Playerfire : MonoBehaviour
             GameObject bullet = GetBulletInPool();
             //FirePos
             bullet.SetActive(true);
+            _source.clip = _fire;
+            _source.Play();
             bullet.transform.position = FirePos.transform.position;
             bullet.transform.rotation = gameObject.transform.rotation;
             StartCoroutine(ShootCoolTime());

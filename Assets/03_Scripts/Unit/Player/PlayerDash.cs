@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerDash : MonoBehaviour
 {
+    [SerializeField] private AudioClip _dash;
+
+    private AudioSource _source;
+
     [SerializeField]
     private GameObject _movementCollider;
     [SerializeField]
@@ -22,9 +26,12 @@ public class PlayerDash : MonoBehaviour
     {
         _movement = GetComponent<PlayerMovement>();
         _cameraMove = _camera.GetComponent<CameraMovement>();
+        _source = GetComponent<AudioSource>();
     }
     public void DashAttack()
     {
+        _source.clip = _dash;
+        _source.Play();
         StartCoroutine(DashFoward());
     }
     private IEnumerator DashFoward()
